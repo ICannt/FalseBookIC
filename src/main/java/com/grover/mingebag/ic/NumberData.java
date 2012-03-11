@@ -13,8 +13,8 @@ public class NumberData extends BaseData {
 	}
 	
 	@Override
-	public byte getType() {
-		return DataTypes.NUMBER.id;
+	public DataTypes getType() {
+		return DataTypes.NUMBER;
 	}
 
 	@Override

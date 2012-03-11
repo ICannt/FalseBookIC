@@ -12,8 +12,8 @@ public class StringData extends BaseData {
 		return this.string;
 	}
 	@Override
-	public byte getType() {
-		return DataTypes.STRING.id;
+	public DataTypes getType() {
+		return DataTypes.STRING;
 	}
 
 	@Override

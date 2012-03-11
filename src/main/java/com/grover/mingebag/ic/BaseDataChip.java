@@ -15,7 +15,7 @@ import org.bukkit.block.Sign;
 public class BaseDataChip extends BaseIC
 {
 	
-	public void outputData(BaseData data, byte type, final Sign signBlock, final int distance, final int pulse) {
+	public void outputData(BaseData data, DataTypes type, final Sign signBlock, final int distance, final int pulse) {
 		DataTypeManager manager = this.core.getFactory().getDataTypeManager();
 		manager.addDataType(ICUtils.getLeverPos(signBlock, distance), new DataType(data, type));
 		switchLever(Lever.BACK, signBlock, true, distance);
@@ -29,7 +29,7 @@ public class BaseDataChip extends BaseIC
 		manager.endDataType(ICUtils.getLeverPos(signBlock, distance));
 	}
 	
-	public void outputDataLeft(BaseData data, byte type, final Sign signBlock, final int distance, final int pulse) {
+	public void outputDataLeft(BaseData data, DataTypes type, final Sign signBlock, final int distance, final int pulse) {
 		DataTypeManager manager = this.core.getFactory().getDataTypeManager();
 		manager.addDataType(ICUtils.getLeverPosLeft(signBlock, distance), new DataType(data, type));
 		switchLever(Lever.LEFT, signBlock, true, distance);
@@ -43,7 +43,7 @@ public class BaseDataChip extends BaseIC
 		manager.endDataType(ICUtils.getLeverPosLeft(signBlock, distance));
 	}
 	
-	public void outputDataRight(BaseData data, byte type, final Sign signBlock, final int distance, final int pulse) {
+	public void outputDataRight(BaseData data, DataTypes type, final Sign signBlock, final int distance, final int pulse) {
 		DataTypeManager manager = this.core.getFactory().getDataTypeManager();
 		manager.addDataType(ICUtils.getLeverPosRight(signBlock, distance), new DataType(data, type));
 		switchLever(Lever.RIGHT, signBlock, true, distance);

@@ -1,15 +1,15 @@
 package com.grover.mingebag.ic;
 
 public class DataType {
-	private byte type;
+	private DataTypes type;
 	private BaseData data;
 	
-	public DataType(BaseData data, byte type) {
+	public DataType(BaseData data, DataTypes type) {
 		this.data = data;
 		this.type = type;
 	}
 	
-	public byte getType() {
+	public DataTypes getType() {
 		return type;
 	}
 	

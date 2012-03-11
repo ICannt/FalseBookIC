@@ -11,8 +11,8 @@ public class PlayerData extends BaseData {
 	}
 
 	@Override
-	public byte getType() {
-		return DataTypes.PLAYER.id;
+	public DataTypes getType() {
+		return DataTypes.PLAYER;
 	}
 	
 	@Override
