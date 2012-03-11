@@ -6,8 +6,10 @@ import com.bukkit.gemo.utils.ChatUtils;
 import com.bukkit.gemo.utils.ICUtils;
 import com.bukkit.gemo.utils.UtilPermissions;
 import java.io.File;
+import java.util.ArrayList;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.SignChangeEvent;
@@ -23,6 +25,7 @@ public class BaseIC
   private ICGroup Group = null;
   protected String ICDescription = "";
   protected BaseChip chipState = null;
+  protected byte ICSignDepth = 0;
 
   protected BaseIC(FalseBookICCore core)
   {
@@ -37,8 +40,35 @@ public class BaseIC
   {
     return (UtilPermissions.playerCanUseCommand(player, "falsebook.ic." + this.Group.name().toLowerCase())) || (UtilPermissions.playerCanUseCommand(player, "falsebook.ic." + this.ICNumber.toLowerCase().substring(1, this.ICNumber.length() - 1))) || (UtilPermissions.playerCanUseCommand(player, "falsebook.anyic"));
   }
+  
+  public final void RawExecute(Sign signBlock, InputState currentInputs, InputState previousInputs)
+  {
+      if(ICSignDepth == 0) {
+         Execute(signBlock, currentInputs, previousInputs);
+      }
+      else {
+          ArrayList<Sign> signs = new ArrayList<Sign>();
+          signs.add(signBlock);
+          
+          Location loc = signBlock.getLocation();
+          int depth = ICSignDepth + 1;
+          for(int i = 1; i < depth; ++i) {
+              Location newLoc = loc.add(0, -i, 0);
+              Block block = newLoc.getBlock();
+              if(block.getType() == Material.WALL_SIGN) {
+                  signs.add((Sign)block.getState());
+              }
+          }
+          
+          Execute(signs, currentInputs, previousInputs);
+      }
+  }
 
   public void Execute(Sign signBlock, InputState currentInputs, InputState previousInputs)
+  {
+  }
+  
+  public void Execute(ArrayList<Sign> signBlock, InputState currentInputs, InputState previousInputs)
   {
   }
 

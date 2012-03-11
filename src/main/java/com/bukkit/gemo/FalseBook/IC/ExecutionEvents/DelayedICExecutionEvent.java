@@ -25,7 +25,7 @@ public class DelayedICExecutionEvent
 
   public void run() {
     try {
-      this.thisIC.Execute(this.signBlock, new InputState(this.signBlock), this.oldInputs);
+      this.thisIC.RawExecute(this.signBlock, new InputState(this.signBlock), this.oldInputs);
     } catch (Exception e) {
       e.printStackTrace();
     }

@@ -14,7 +14,7 @@ import org.bukkit.block.Sign;
 
 public class BaseDataChip extends BaseIC
 {
-	
+   
 	public void outputData(BaseData data, DataTypes type, final Sign signBlock, final int distance, final int pulse) {
 		DataTypeManager manager = this.core.getFactory().getDataTypeManager();
 		manager.addDataType(ICUtils.getLeverPos(signBlock, distance), new DataType(data, type));

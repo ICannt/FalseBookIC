@@ -23,6 +23,6 @@ public class ICExecutionEvent
   }
 
   public void Execute() {
-    this.thisIC.Execute(this.signBlock, new InputState(this.signBlock), this.oldInputs);
+    this.thisIC.RawExecute(this.signBlock, new InputState(this.signBlock), this.oldInputs);
   }
 }
