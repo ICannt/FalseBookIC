@@ -20,6 +20,8 @@ import com.bukkit.gemo.FalseBook.IC.commands.cmdSetSelftriggeredICs;
 import com.bukkit.gemo.FalseBook.IC.commands.cmdSetTicksBetween;
 import com.bukkit.gemo.commands.CommandList;
 import com.bukkit.gemo.utils.FlatFile;
+import com.grover.mingebag.ic.RedstoneListener;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
@@ -91,6 +93,9 @@ public class FalseBookICCore extends JavaPlugin
     this.blockListener = new FalseBookICBlockListener();
     this.entityListener = new FalseBookICEntityListener();
     this.playerListener = new FalseBookICPlayerListener();
+    
+    
+    
 
     this.factory = new ICFactory(this);
     this.persistenceHandler = new PersistenceHandler(this);
@@ -119,6 +124,10 @@ public class FalseBookICCore extends JavaPlugin
     }
 
     printInConsole(this.pluginName + " enabled");
+    
+    // Grover data type system
+    getServer().getPluginManager().registerEvents(new RedstoneListener(factory), this);
+    
   }
 
   private void initCommands()

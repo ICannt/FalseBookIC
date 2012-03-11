@@ -71,7 +71,8 @@ public class MC1110 extends SelftriggeredBaseIC
           continue;
         }
         ((MC0111)IC).setStatus(newStatus);
-        
+
+
       }
 
       switchLever(Lever.BACK, this.signBlock, newStatus);

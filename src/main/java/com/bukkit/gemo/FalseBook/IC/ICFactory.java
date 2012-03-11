@@ -17,6 +17,8 @@ import com.bukkit.gemo.utils.ChatUtils;
 import com.bukkit.gemo.utils.ICUtils;
 import com.bukkit.gemo.utils.MyEventStatistic;
 import com.bukkit.gemo.utils.SignUtils;
+import com.grover.mingebag.ic.DataTypeManager;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,6 +57,10 @@ public class ICFactory
   private HashMap<String, BaseIC> registeredTICs = new HashMap<String, BaseIC>();
   private HashMap<String, SelftriggeredBaseIC> registeredSTICs = new HashMap<String, SelftriggeredBaseIC>();
 
+  // Grover data type
+  private DataTypeManager data_type;
+  // end
+  
   public MyEventStatistic statistic = new MyEventStatistic();
 
   public ICFactory(FalseBookICCore instance) {
@@ -65,6 +71,14 @@ public class ICFactory
     registerICs();
     this.TASK = new ICRunningTask(this.plugin);
     this.persistence = persistence;
+    
+    // Grover data type
+    data_type = new DataTypeManager();
+	plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+	    public void run() {
+	        data_type.clean();
+	    }
+	}, 10000, 10000);
   }
 
   public void ExportSTICsToWiki()
@@ -831,4 +845,10 @@ public class ICFactory
   public void clearFailedICs() {
     this.failedICs = new ArrayList<NotLoadedIC>();
   }
+  
+  // Grover data type
+  public DataTypeManager getDataTypeManager() {
+	  return this.data_type;
+  }
+  
 }

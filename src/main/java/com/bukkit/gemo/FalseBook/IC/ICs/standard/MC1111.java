@@ -50,9 +50,8 @@ public class MC1111 extends BaseIC
           if (!mainNetwork.equalsIgnoreCase(((MC1110)IC).getMainNetwork())) {
             continue;
           }
-          
-            result = true;
-            break;
+          result = true;
+          break;
 
         }
 
