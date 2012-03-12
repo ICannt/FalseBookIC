@@ -94,10 +94,11 @@ public class BaseDataChip extends BaseIC
 	
 	public BaseData getDataLeft(Sign signBlock) {
 		int direction = SignUtils.getDirection(signBlock);
+		System.out.println(direction);
 		DataType type = null;
 		Location loc = signBlock.getLocation().clone();
 		if(direction == 1) {
-			loc.setX(loc.getX()+1d);
+			loc.setX(loc.getX()-1d);
 			type = core.getFactory().getDataTypeManager().getDataType(loc);
 		}
 		if(direction == 2) {
@@ -105,7 +106,7 @@ public class BaseDataChip extends BaseIC
 			type = core.getFactory().getDataTypeManager().getDataType(loc);
 		}
 		if(direction == 3) {
-			loc.setX(loc.getX()-1d);
+			loc.setX(loc.getX()+1d);
 			type = core.getFactory().getDataTypeManager().getDataType(loc);
 		}
 		if(direction == 4) {
@@ -123,7 +124,7 @@ public class BaseDataChip extends BaseIC
 		DataType type = null;
 		Location loc = signBlock.getLocation().clone();
 		if(direction == 1) {
-			loc.setX(loc.getX()-1d);
+			loc.setX(loc.getX()+1d);
 			type = core.getFactory().getDataTypeManager().getDataType(loc);
 		}
 		if(direction == 2) {
@@ -131,7 +132,7 @@ public class BaseDataChip extends BaseIC
 			type = core.getFactory().getDataTypeManager().getDataType(loc);
 		}
 		if(direction == 3) {
-			loc.setX(loc.getX()+1d);
+			loc.setX(loc.getX()-1d);
 			type = core.getFactory().getDataTypeManager().getDataType(loc);
 		}
 		if(direction == 4) {
