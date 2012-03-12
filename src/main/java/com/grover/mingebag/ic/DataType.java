@@ -4,9 +4,9 @@ public class DataType {
 	private DataTypes type;
 	private BaseData data;
 	
-	public DataType(BaseData data, DataTypes type) {
+	public DataType(BaseData data) {
 		this.data = data;
-		this.type = type;
+		this.type = data.getType();
 	}
 	
 	public DataTypes getType() {

@@ -6,8 +6,6 @@ import com.bukkit.gemo.utils.ICUtils;
 import com.bukkit.gemo.utils.SignUtils;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 
 
@@ -15,47 +13,46 @@ import org.bukkit.block.Sign;
 public class BaseDataChip extends BaseIC
 {
    
-	public void outputData(BaseData data, DataTypes type, final Sign signBlock, final int distance, final int pulse) {
-		DataTypeManager manager = this.core.getFactory().getDataTypeManager();
-		manager.addDataType(ICUtils.getLeverPos(signBlock, distance), new DataType(data, type));
-		switchLever(Lever.BACK, signBlock, true, distance);
-		if(pulse > 0) {
-			this.core.getServer().getScheduler().scheduleSyncDelayedTask(this.core, new Runnable() {
-			    public void run() {
-			        switchLever(Lever.BACK, signBlock, false, distance);
-			    }
-			}, pulse);
-		}
-		manager.endDataType(ICUtils.getLeverPos(signBlock, distance));
+	public void outputData(BaseData data, final Sign signBlock, final int distance, final int pulse) {
+		outputData(data, signBlock, distance, pulse, Lever.BACK);
 	}
 	
 	public void outputDataLeft(BaseData data, DataTypes type, final Sign signBlock, final int distance, final int pulse) {
-		DataTypeManager manager = this.core.getFactory().getDataTypeManager();
-		manager.addDataType(ICUtils.getLeverPosLeft(signBlock, distance), new DataType(data, type));
-		switchLever(Lever.LEFT, signBlock, true, distance);
-		if(pulse > 0) {
-			this.core.getServer().getScheduler().scheduleSyncDelayedTask(this.core, new Runnable() {
-			    public void run() {
-			        switchLever(Lever.LEFT, signBlock, false, distance);
-			    }
-			}, pulse);
-		}
-		manager.endDataType(ICUtils.getLeverPosLeft(signBlock, distance));
+		outputData(data, signBlock, distance, pulse, Lever.LEFT);
 	}
 	
 	public void outputDataRight(BaseData data, DataTypes type, final Sign signBlock, final int distance, final int pulse) {
+		outputData(data, signBlock, distance, pulse, Lever.RIGHT);
+	}
+	
+	private void outputData(BaseData data, final Sign signBlock, final int distance, final int pulse, final Lever lever) {
+		
+		// send datatype
 		DataTypeManager manager = this.core.getFactory().getDataTypeManager();
-		manager.addDataType(ICUtils.getLeverPosRight(signBlock, distance), new DataType(data, type));
-		switchLever(Lever.RIGHT, signBlock, true, distance);
+		manager.addDataType(ICUtils.getLeverPos(signBlock, distance), new DataType(data));
+		switchLever(lever, signBlock, true, distance);
+		
+		// Pulse datatype
 		if(pulse > 0) {
 			this.core.getServer().getScheduler().scheduleSyncDelayedTask(this.core, new Runnable() {
 			    public void run() {
-			        switchLever(Lever.RIGHT, signBlock, false, distance);
+			        switchLever(lever, signBlock, false, distance);
 			    }
 			}, pulse);
 		}
-		manager.endDataType(ICUtils.getLeverPosRight(signBlock, distance));
+		
+		// end datatype at lever
+		if(lever == Lever.BACK)
+			manager.endDataType(ICUtils.getLeverPos(signBlock, distance));
+			
+		if(lever == Lever.LEFT)
+			manager.endDataType(ICUtils.getLeverPosLeft(signBlock, distance));
+		
+		if(lever == Lever.RIGHT)
+			manager.endDataType(ICUtils.getLeverPosRight(signBlock, distance));
 	}
+	
+	
 	
 	public BaseData getData(Sign signBlock) {
 		int direction = SignUtils.getDirection(signBlock);
@@ -135,30 +132,4 @@ public class BaseDataChip extends BaseIC
 		return type.getData();
 	}
 	
-	public BaseData[] getDefaults(Sign block) {
-		Location loc = block.getLocation().clone();
-		loc.setY(loc.getY()-1d);
-		Block defaults = block.getWorld().getBlockAt(loc);
-		BaseData[] data = new BaseData[3];
-		if(defaults.getType() == Material.WALL_SIGN) {
-			if(defaults.getState() instanceof Sign) {
-				Sign defaultSign = (Sign) defaults.getState();
-				if(defaultSign.getLine(0).equals("[defaults]")) {
-					// Number, String
-					for(int i = 0; i <= 2; i++) {
-						data[i] = getDefaultData(defaultSign.getLine(i));
-					}
-				}
-			}
-		}
-		return data;
-	}
-	
-	public BaseData getDefaultData(String text) {
-		try {
-			return new NumberData(Integer.parseInt(text));
-		} catch(Exception e) {
-		}	
-		return new StringData(text);
-	}
 }
