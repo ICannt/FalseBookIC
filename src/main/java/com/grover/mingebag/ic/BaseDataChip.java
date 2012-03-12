@@ -94,7 +94,6 @@ public class BaseDataChip extends BaseIC
 	
 	public BaseData getDataLeft(Sign signBlock) {
 		int direction = SignUtils.getDirection(signBlock);
-		System.out.println(direction);
 		DataType type = null;
 		Location loc = signBlock.getLocation().clone();
 		if(direction == 1) {
