@@ -9,6 +9,10 @@ public class PlayerData extends BaseData {
 	public PlayerData(Player player) {
 		this.player = player;
 	}
+	
+	public Player getPlayer() {
+		return this.player;
+	}
 
 	@Override
 	public DataTypes getType() {
