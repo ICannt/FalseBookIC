@@ -92,7 +92,7 @@ public class BaseDataChip extends BaseIC
 		return type.getData();
 	}
 	
-	public BaseData getDataRight(Sign signBlock) {
+	public BaseData getDataLeft(Sign signBlock) {
 		int direction = SignUtils.getDirection(signBlock);
 		DataType type = null;
 		Location loc = signBlock.getLocation().clone();
@@ -118,7 +118,7 @@ public class BaseDataChip extends BaseIC
 		return type.getData();
 	}
 	
-	public BaseData getDataLeft(Sign signBlock) {
+	public BaseData getDataRight(Sign signBlock) {
 		int direction = SignUtils.getDirection(signBlock);
 		DataType type = null;
 		Location loc = signBlock.getLocation().clone();
