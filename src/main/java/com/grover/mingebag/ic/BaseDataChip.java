@@ -13,26 +13,38 @@ import org.bukkit.block.Sign;
 public class BaseDataChip extends BaseIC
 {
    
-	public void outputData(BaseData data, final Sign signBlock, final int distance, final int pulse) {
-		outputData(data, signBlock, distance, pulse, Lever.BACK);
+	public void outputData(BaseData data, final Sign signBlock, final int distance) {
+		outputData(data, signBlock, distance, Lever.BACK);
 	}
 	
-	public void outputDataLeft(BaseData data, DataTypes type, final Sign signBlock, final int distance, final int pulse) {
-		outputData(data, signBlock, distance, pulse, Lever.LEFT);
+	public void outputDataLeft(BaseData data, DataTypes type, final Sign signBlock, final int distance) {
+		outputData(data, signBlock, distance, Lever.LEFT);
 	}
 	
-	public void outputDataRight(BaseData data, DataTypes type, final Sign signBlock, final int distance, final int pulse) {
-		outputData(data, signBlock, distance, pulse, Lever.RIGHT);
+	public void outputDataRight(BaseData data, DataTypes type, final Sign signBlock, final int distance) {
+		outputData(data, signBlock, distance, Lever.RIGHT);
 	}
 	
-	private void outputData(BaseData data, final Sign signBlock, final int distance, final int pulse, final Lever lever) {
+	private void outputData(BaseData data, final Sign signBlock, final int distance, final Lever lever) {
 		
 		// send datatype
 		DataTypeManager manager = this.core.getFactory().getDataTypeManager();
 		manager.addDataType(ICUtils.getLeverPos(signBlock, distance), new DataType(data));
 		switchLever(lever, signBlock, true, distance);
 		
-		// Pulse datatype
+		// pulse
+		Integer pulse = 2;
+		if(signBlock.getLine(2).length() > 0) {
+			try {
+				pulse = Integer.parseInt(signBlock.getLine(2));
+			} catch (Exception e) {
+			}
+		}
+		
+		if(pulse > 600) {
+			pulse = 2;
+		}
+		
 		if(pulse > 0) {
 			this.core.getServer().getScheduler().scheduleSyncDelayedTask(this.core, new Runnable() {
 			    public void run() {
@@ -80,7 +92,7 @@ public class BaseDataChip extends BaseIC
 		return type.getData();
 	}
 	
-	public BaseData getDataLeft(Sign signBlock) {
+	public BaseData getDataRight(Sign signBlock) {
 		int direction = SignUtils.getDirection(signBlock);
 		DataType type = null;
 		Location loc = signBlock.getLocation().clone();
@@ -106,7 +118,7 @@ public class BaseDataChip extends BaseIC
 		return type.getData();
 	}
 	
-	public BaseData getDataRight(Sign signBlock) {
+	public BaseData getDataLeft(Sign signBlock) {
 		int direction = SignUtils.getDirection(signBlock);
 		DataType type = null;
 		Location loc = signBlock.getLocation().clone();

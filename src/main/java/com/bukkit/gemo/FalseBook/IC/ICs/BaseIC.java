@@ -53,7 +53,7 @@ public class BaseIC
           Location loc = signBlock.getLocation();
           int depth = ICSignDepth + 1;
           for(int i = 1; i < depth; ++i) {
-              Location newLoc = loc.add(0, -i, 0);
+              Location newLoc = loc.clone().subtract(0, i, 0);
               Block block = newLoc.getBlock();
               if(block.getType() == Material.WALL_SIGN) {
                   signs.add((Sign)block.getState());
@@ -372,4 +372,10 @@ public class BaseIC
       ICUtils.switchLeverRight(signBlock, newStatus, distance);
     }
   }
+
+	public void setICSignDepth(byte ICSignDepth) {
+		this.ICSignDepth = ICSignDepth;
+	}
+  
+  
 }
