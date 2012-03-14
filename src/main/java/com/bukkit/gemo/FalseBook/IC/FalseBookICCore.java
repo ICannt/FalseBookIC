@@ -1,7 +1,6 @@
 package com.bukkit.gemo.FalseBook.IC;
 
 import com.bukkit.gemo.FalseBook.Core.FalseBookCore;
-import com.bukkit.gemo.FalseBook.IC.ICs.BaseIC;
 import com.bukkit.gemo.FalseBook.IC.Listeners.FalseBookICBlockListener;
 import com.bukkit.gemo.FalseBook.IC.Listeners.FalseBookICEntityListener;
 import com.bukkit.gemo.FalseBook.IC.Listeners.FalseBookICPlayerListener;
@@ -24,8 +23,6 @@ import com.grover.mingebag.ic.RedstoneListener;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.TreeMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
