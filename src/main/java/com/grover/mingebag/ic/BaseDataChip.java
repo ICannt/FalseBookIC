@@ -7,9 +7,32 @@ import com.bukkit.gemo.utils.SignUtils;
 
 import org.bukkit.Location;
 import org.bukkit.block.Sign;
+import org.bukkit.event.block.SignChangeEvent;
 
 public class BaseDataChip extends BaseIC {
 
+    public void checkCreation(SignChangeEvent event) {
+        String line = event.getLine(2);
+        
+        Integer user = -1;
+        Integer pulse = 2;
+        if (line.length() > 0) {
+            try {
+                user = Integer.parseInt(line);
+                pulse = user;
+            } catch (Exception e) {
+            }
+        }
+        
+        if (pulse > 600 || pulse < 2) {
+            pulse = 2;
+        }
+        
+        if(pulse != user) {
+            event.setLine(2, pulse.toString());
+        }
+    }
+    
     public void outputData(BaseData data, final Sign signBlock, final int distance) {
         outputData(data, signBlock, distance, Lever.BACK);
     }
@@ -38,7 +61,7 @@ public class BaseDataChip extends BaseIC {
             }
         }
 
-        if (pulse > 600) {
+        if (pulse > 600 || pulse < 2) {
             pulse = 2;
         }
 

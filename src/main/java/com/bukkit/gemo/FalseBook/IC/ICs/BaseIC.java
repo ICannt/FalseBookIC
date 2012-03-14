@@ -51,6 +51,9 @@ public class BaseIC
                 if (block.getType() == Material.WALL_SIGN) {
                     signs.add((Sign) block.getState());
                 }
+                else {
+                    break;
+                }
             }
 
             Execute(signs, currentInputs, previousInputs);

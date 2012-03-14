@@ -3,7 +3,7 @@ package com.bukkit.gemo.FalseBook.IC.ICs;
 import com.bukkit.gemo.utils.ICUtils;
 import org.bukkit.block.Sign;
 
-public class InputState {
+public final class InputState {
 
     private boolean[] input;
 
@@ -27,14 +27,14 @@ public class InputState {
     }
 
     public boolean isInputOneLow() {
-        return !isInputOneHigh();
+        return !this.input[0];
     }
 
     public boolean isInputTwoLow() {
-        return !isInputTwoHigh();
+        return !this.input[1];
     }
 
     public boolean isInputThreeLow() {
-        return !isInputThreeHigh();
+        return !this.input[2];
     }
 }
