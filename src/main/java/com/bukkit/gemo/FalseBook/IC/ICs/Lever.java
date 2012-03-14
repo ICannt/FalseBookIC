@@ -1,10 +1,8 @@
 package com.bukkit.gemo.FalseBook.IC.ICs;
 
-public enum Lever
-{
-  BACK, 
+public enum Lever {
 
-  LEFT, 
-
-  RIGHT;
+    BACK,
+    LEFT,
+    RIGHT;
 }

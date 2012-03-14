@@ -1,16 +1,15 @@
 package com.bukkit.gemo.FalseBook.IC;
 
 public class DelayedDataLoader
-  implements Runnable
-{
-  private PersistenceHandler persistence;
+        implements Runnable {
 
-  public DelayedDataLoader(PersistenceHandler persistence)
-  {
-    this.persistence = persistence;
-  }
+    private PersistenceHandler persistence;
 
-  public void run() {
-    this.persistence.loadSelftriggeredICs();
-  }
+    public DelayedDataLoader(PersistenceHandler persistence) {
+        this.persistence = persistence;
+    }
+
+    public void run() {
+        this.persistence.loadSelftriggeredICs();
+    }
 }

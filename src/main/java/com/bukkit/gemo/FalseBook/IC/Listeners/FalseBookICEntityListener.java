@@ -7,24 +7,27 @@ import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
 public class FalseBookICEntityListener
-  implements Listener
-{
-  private ICFactory factory = null;
+        implements Listener {
 
-  public void init(ICFactory factory) {
-    this.factory = factory;
-  }
-  @EventHandler
-  public void onEntityExplode(EntityExplodeEvent event) {
-    if (event.isCancelled()) {
-      return;
+    private ICFactory factory = null;
+
+    public void init(ICFactory factory) {
+        this.factory = factory;
     }
-    this.factory.handleExplodeEvent(event);
-  }
-  @EventHandler
-  public void onEntityChangeBlock(EntityChangeBlockEvent event) {
-    if (event.isCancelled())
-      return;
-    this.factory.handleEntityChangeBlock(event);
-  }
+
+    @EventHandler
+    public void onEntityExplode(EntityExplodeEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
+        this.factory.handleExplodeEvent(event);
+    }
+
+    @EventHandler
+    public void onEntityChangeBlock(EntityChangeBlockEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
+        this.factory.handleEntityChangeBlock(event);
+    }
 }

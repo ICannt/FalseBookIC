@@ -6,28 +6,27 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 
 public class DelayedICExecutionEvent
-  implements Runnable
-{
-  private IC thisIC = null;
-  private Sign signBlock = null;
-  private InputState oldInputs;
+        implements Runnable {
 
-  public DelayedICExecutionEvent(IC thisIC, Sign signBlock, InputState oldInputs)
-  {
-    this.thisIC = thisIC;
-    this.signBlock = signBlock;
-    this.oldInputs = oldInputs;
-  }
+    private IC thisIC = null;
+    private Sign signBlock = null;
+    private InputState oldInputs;
 
-  public Block getSignBlock() {
-    return this.signBlock.getBlock();
-  }
-
-  public void run() {
-    try {
-      this.thisIC.RawExecute(this.signBlock, new InputState(this.signBlock), this.oldInputs);
-    } catch (Exception e) {
-      e.printStackTrace();
+    public DelayedICExecutionEvent(IC thisIC, Sign signBlock, InputState oldInputs) {
+        this.thisIC = thisIC;
+        this.signBlock = signBlock;
+        this.oldInputs = oldInputs;
     }
-  }
+
+    public Block getSignBlock() {
+        return this.signBlock.getBlock();
+    }
+
+    public void run() {
+        try {
+            this.thisIC.RawExecute(this.signBlock, new InputState(this.signBlock), this.oldInputs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

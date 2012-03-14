@@ -3,45 +3,38 @@ package com.bukkit.gemo.FalseBook.IC.ICs;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public abstract class ExternalICPackage
-{
-  private String API_VERSION = "UNKNOWN";
-  private boolean showImportMessages = true;
-  private ArrayList<Class<?>> ICList = new ArrayList<Class<?>>();
+public abstract class ExternalICPackage {
 
-  public ArrayList<Class<?>> getICList()
-  {
-    return this.ICList;
-  }
+    private String API_VERSION = "UNKNOWN";
+    private boolean showImportMessages = true;
+    private ArrayList<Class<?>> ICList = new ArrayList<Class<?>>();
 
-  public String getAPI_VERSION()
-  {
-    return this.API_VERSION;
-  }
+    public ArrayList<Class<?>> getICList() {
+        return this.ICList;
+    }
 
-  public void setAPI_VERSION(String API_VERSION)
-  {
-    this.API_VERSION = API_VERSION;
-  }
+    public String getAPI_VERSION() {
+        return this.API_VERSION;
+    }
 
-  public static int getUniqueID(String string)
-  {
-    return UUID.nameUUIDFromBytes(string.getBytes()).hashCode();
-  }
+    public void setAPI_VERSION(String API_VERSION) {
+        this.API_VERSION = API_VERSION;
+    }
 
-  protected void addIC(Class<?> clazz)
-  {
-    this.ICList.add(clazz);
-  }
+    public static int getUniqueID(String string) {
+        return UUID.nameUUIDFromBytes(string.getBytes()).hashCode();
+    }
 
-  public boolean isShowImportMessages()
-  {
-    return this.showImportMessages;
-  }
+    protected void addIC(Class<?> clazz) {
+        this.ICList.add(clazz);
+    }
 
-  protected boolean setShowImportMessages(boolean var)
-  {
-    this.showImportMessages = var;
-    return this.showImportMessages;
-  }
+    public boolean isShowImportMessages() {
+        return this.showImportMessages;
+    }
+
+    protected boolean setShowImportMessages(boolean var) {
+        this.showImportMessages = var;
+        return this.showImportMessages;
+    }
 }
