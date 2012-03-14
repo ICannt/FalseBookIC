@@ -266,6 +266,40 @@ public class ICFactory {
             }
         }
         return true;
+<<<<<<< HEAD
+      }
+    }
+    return false;
+  }
+
+  public BaseIC getIC(String line)
+  {
+    line = line.toLowerCase();
+    if (this.registeredTICs.get(line) == null) {
+	   	 BaseIC auto = getICByAuto(line);
+	   	 if (auto != null)
+	   		 return auto;
+	   	 return this.registeredSTICs.get(line);
+    }
+    return this.registeredTICs.get(line);
+  }
+
+  public BaseIC getICByName(String line)
+  {
+    line = line.toLowerCase().trim();
+    if (line.startsWith("*")) {
+      line = line.replace("*", "");
+      for (SelftriggeredBaseIC entry : this.registeredSTICs.values()) {
+        if (line.equalsIgnoreCase(entry.getICName().trim().replace(" ", "").replace("_", "").replace("-", "")))
+          return entry;
+      }
+    }
+    else if (line.startsWith("=")) {
+      line = line.replace("=", "");
+      for (BaseIC entry : this.registeredTICs.values()) {
+        if (line.equalsIgnoreCase(entry.getICName().trim().replace(" ", "").replace("_", "").replace("-", ""))) {
+          return entry;
+=======
     }
 
     public boolean isBlockBreakable(Block block) {
@@ -299,13 +333,35 @@ public class ICFactory {
             }
         } catch (Exception e) {
             e.printStackTrace();
+>>>>>>> e32ad78d5fc154c063494e58eed2206e9e03bc8b
         }
         return true;
     }
 
+<<<<<<< HEAD
+    return null;
+  }
+  
+  public BaseIC getICByAuto(String line)
+  {
+	  if (line.length() < 5)
+		  return null;
+	  
+	  line = line.toLowerCase().trim();
+      for (BaseIC entry : this.registeredTICs.values()) {
+    	  if (entry.getICNumber().length() >= line.length())
+    		  if (entry.getICNumber().substring(0, line.length()).equals(line))
+    			  return entry;
+      }
+
+      return null;
+  }
+
+=======
     public void addSelftriggeredIC(Location location, SelftriggeredBaseIC IC) {
         this.SensorList.put(location.toString(), IC);
     }
+>>>>>>> e32ad78d5fc154c063494e58eed2206e9e03bc8b
 
     public void removeFailedIC(NotLoadedIC IC) {
         this.failedICs.remove(IC);
@@ -315,6 +371,35 @@ public class ICFactory {
         this.failedICs.add(IC);
     }
 
+<<<<<<< HEAD
+  public boolean isBlockBreakable(List<Block> blockList)
+  {
+    for (int i = 0; i < blockList.size(); i++) {
+      try {
+        Block block = blockList.get(i);
+        if (block.getType().equals(Material.WALL_SIGN)) {
+          Sign signBlock = (Sign)block.getState();
+          BaseIC thisIC = getIC(signBlock.getLine(0).toLowerCase());
+
+          if (thisIC != null)
+            return false;
+        }
+        else {
+          Block b = null;
+          byte signData = -1;
+          ArrayList<Block> bList = BlockUtils.getDirectNeighbours(block, true);
+          for (int j = 0; j < bList.size(); j++) {
+            b = bList.get(j);
+
+            if (b.getType().equals(Material.WALL_SIGN)) {
+              Sign signBlock = (Sign)b.getState();
+              signData = signBlock.getRawData();
+              if (((signData != 2) || (j != 3)) && ((signData != 4) || (j != 1)) && ((signData != 5) || (j != 0)) && ((signData != 3) || (j != 2)))
+                continue;
+              BaseIC thisIC = getIC(signBlock.getLine(0).toLowerCase());
+              if (thisIC != null)
+                return false;
+=======
     public int getFailedICsSize() {
         return this.failedICs.size();
     }
@@ -391,8 +476,81 @@ public class ICFactory {
                         }
                     }
                 }
+>>>>>>> e32ad78d5fc154c063494e58eed2206e9e03bc8b
             }
         }
+<<<<<<< HEAD
+      }
+      catch (Exception e)
+      {
+        e.printStackTrace();
+      }
+    }
+    return true;
+  }
+
+  public boolean isBlockBreakable(Block block) {
+    try {
+      if (block.getType().equals(Material.WALL_SIGN)) {
+        Sign signBlock = (Sign)block.getState();
+        BaseIC thisIC = getIC(signBlock.getLine(0).toLowerCase());
+
+        if (thisIC != null)
+          return false;
+      }
+      else {
+        Block b = null;
+        byte signData = -1;
+        ArrayList<Block> bList = BlockUtils.getDirectNeighbours(block, true);
+        for (int j = 0; j < bList.size(); j++) {
+          b = bList.get(j);
+
+          if (b.getType().equals(Material.WALL_SIGN)) {
+            Sign signBlock = (Sign)b.getState();
+            signData = signBlock.getRawData();
+            if (((signData != 2) || (j != 3)) && ((signData != 4) || (j != 1)) && ((signData != 5) || (j != 0)) && ((signData != 3) || (j != 2)))
+              continue;
+            BaseIC thisIC = getIC(signBlock.getLine(0).toLowerCase());
+            if (thisIC != null)
+              return false;
+          }
+        }
+      }
+    }
+    catch (Exception e)
+    {
+      e.printStackTrace();
+    }
+    return true;
+  }
+
+  public void addSelftriggeredIC(Location location, SelftriggeredBaseIC IC) {
+    this.SensorList.put(location.toString(), IC);
+  }
+
+  public void removeFailedIC(NotLoadedIC IC) {
+    this.failedICs.remove(IC);
+  }
+
+  public void addFailedIC(NotLoadedIC IC) {
+    this.failedICs.add(IC);
+  }
+
+  public int getFailedICsSize() {
+    return this.failedICs.size();
+  }
+
+  public void handleExplodeEvent(EntityExplodeEvent event) {
+    if (!isBlockBreakable(event.blockList()))
+      if (!FalseBookICCore.getInstance().isAllowExplosionForICs()) {
+        event.setYield(0.0F);
+        event.setCancelled(true);
+      } else {
+        for (Block block : event.blockList())
+          if (block.getType().equals(Material.WALL_SIGN)) {
+            Sign signBlock = (Sign)block.getState();
+            BaseIC thisIC = getIC(signBlock.getLine(0).toLowerCase());
+=======
     }
 
     public void handleEntityChangeBlock(EntityChangeBlockEvent event) {
@@ -426,6 +584,7 @@ public class ICFactory {
         if (block.getType().equals(Material.WALL_SIGN)) {
             Sign signBlock = (Sign) block.getState();
             BaseIC thisIC = getIC(signBlock.getLine(1).toUpperCase());
+>>>>>>> e32ad78d5fc154c063494e58eed2206e9e03bc8b
 
             if (thisIC == null) {
                 return;
@@ -476,6 +635,19 @@ public class ICFactory {
             for (int i = 0; i < bList.size(); i++) {
                 b = bList.get(i);
 
+<<<<<<< HEAD
+              if (b.getType().equals(Material.WALL_SIGN)) {
+                Sign signBlock = (Sign)b.getState();
+                signData = signBlock.getRawData();
+                if (((signData != 2) || (i != 3)) && ((signData != 4) || (i != 1)) && ((signData != 5) || (i != 0)) && ((signData != 3) || (i != 2)))
+                  continue;
+                BaseIC thisIC = getIC(signBlock.getLine(0).toLowerCase());
+                if (thisIC == null)
+                  continue;
+                SelftriggeredBaseIC IC;
+                if ((thisIC instanceof SelftriggeredBaseIC)) {
+                  Location loc2 = b.getLocation();
+=======
                 if (b.getType().equals(Material.WALL_SIGN)) {
                     Sign signBlock = (Sign) b.getState();
                     signData = signBlock.getRawData();
@@ -486,6 +658,7 @@ public class ICFactory {
                     if (thisIC == null) {
                         continue;
                     }
+>>>>>>> e32ad78d5fc154c063494e58eed2206e9e03bc8b
 
                     if (!thisIC.hasPermission(event.getPlayer())) {
                         event.setCancelled(true);
@@ -565,6 +738,71 @@ public class ICFactory {
                 if(thisIC == null) {
                     return;
                 }
+<<<<<<< HEAD
+              }
+            }
+          }
+      }
+  }
+
+  public void handleEntityChangeBlock(EntityChangeBlockEvent event)
+  {
+    if (!isBlockBreakable(event.getBlock()))
+      event.setCancelled(true);
+  }
+
+  public void handlePistonExtend(BlockPistonExtendEvent event)
+  {
+    if (!isBlockBreakable(event.getBlocks()))
+      event.setCancelled(true);
+  }
+
+  public void handlePistonRetract(BlockPistonRetractEvent event)
+  {
+    if (!event.isSticky())
+      return;
+    try
+    {
+      if (!isBlockBreakable(event.getRetractLocation().getBlock()))
+        event.setCancelled(true);
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+      return;
+    }
+  }
+
+  public void handleBlockBreak(BlockBreakEvent event) {
+    Block block = event.getBlock();
+    if (block.getType().equals(Material.WALL_SIGN)) {
+      Sign signBlock = (Sign)block.getState();
+      BaseIC thisIC = getIC(signBlock.getLine(0).toLowerCase());
+
+      if (thisIC == null) {
+        return;
+      }
+
+      if (!thisIC.hasPermission(event.getPlayer())) {
+        event.setCancelled(true);
+        ChatUtils.printError(event.getPlayer(), "[FB-IC]", "You are not allowed to destroy this IC!");
+        thisIC = null;
+        signBlock = null;
+        return;
+      }
+      SelftriggeredBaseIC IC;
+      if ((thisIC instanceof SelftriggeredBaseIC)) {
+        Location loc = block.getLocation();
+
+        for (Iterator<SelftriggeredBaseIC> iterator = this.SensorList.values().iterator(); iterator.hasNext(); ) {
+          IC = iterator.next();
+          if (BlockUtils.LocationEquals(loc, IC.getSignBlock().getBlock().getLocation())) {
+            if (IC.onBreakByPlayer(event.getPlayer(), IC.getSignBlock())) {
+              this.SensorList.remove(IC.getSignBlock().getBlock().getLocation().toString());
+              this.persistence.removeSelftriggeredIC(IC.getSignBlock().getBlock().getLocation());
+              ChatUtils.printSuccess(event.getPlayer(), "[FB-IC]", IC.getICNumber() + " removed.");
+              break;
+=======
+>>>>>>> e32ad78d5fc154c063494e58eed2206e9e03bc8b
             }
 
             if ((thisIC instanceof MC1110)) {
@@ -660,7 +898,44 @@ public class ICFactory {
             return;
         }
 
+<<<<<<< HEAD
+        IC = null;
+      }
+      else {
+        if (!thisIC.onBreakByPlayer(event.getPlayer(), signBlock)) {
+          event.setCancelled(true);
+          ChatUtils.printError(event.getPlayer(), "[FB-IC]", "You are not allowed to destroy this IC!");
+          return;
+        }
+        ChatUtils.printSuccess(event.getPlayer(), "[FB-IC]", thisIC.getICName() +  " (" + thisIC.getICNumber() + ") removed.");
+      }
+
+      signBlock = null;
+      thisIC = null;
+    }
+    else
+    {
+      Block b = null;
+      byte signData = -1;
+      ArrayList<Block> bList = BlockUtils.getDirectNeighbours(block, false);
+      for (int i = 0; i < bList.size(); i++) {
+        b = bList.get(i);
+
+        if (b.getType().equals(Material.WALL_SIGN)) {
+          Sign signBlock = (Sign)b.getState();
+          signData = signBlock.getRawData();
+          if (((signData != 2) || (i != 3)) && ((signData != 4) || (i != 1)) && ((signData != 5) || (i != 0)) && ((signData != 3) || (i != 2)))
+            continue;
+          BaseIC thisIC = getIC(signBlock.getLine(0).toLowerCase());
+          if (thisIC == null)
+          {
+            continue;
+          }
+
+          if (!thisIC.hasPermission(event.getPlayer())) {
+=======
         if (!thisIC.hasPermission(player)) {
+>>>>>>> e32ad78d5fc154c063494e58eed2206e9e03bc8b
             event.setCancelled(true);
             SignUtils.cancelSignCreation(event, "You are not allowed to build a " + thisIC.getICName());
             return;
@@ -722,6 +997,46 @@ public class ICFactory {
             IC.onLeftClick(event.getPlayer(), sign);
 
             IC = null;
+<<<<<<< HEAD
+          }
+          else {
+            if (!thisIC.onBreakByPlayer(event.getPlayer(), signBlock)) {
+              event.setCancelled(true);
+              ChatUtils.printError(event.getPlayer(), "[FB-IC]", "You are not allowed to destroy this IC!");
+              return;
+            }
+            ChatUtils.printSuccess(event.getPlayer(), "[FB-IC]", thisIC.getICNumber() + " removed.");
+          }
+        }
+      }
+    }
+  }
+
+  public void handleRedstoneEvent(Block block, BlockRedstoneEvent event, int delayTicks, int searchTry)
+  {
+    if (block.getType().equals(Material.WALL_SIGN)) {
+      Sign signBlock = (Sign)block.getState();
+      if (signBlock == null)
+        return;
+      if (signBlock.getLine(1) == null) {
+        return;
+      }
+      BaseIC thisIC = getIC(signBlock.getLine(0).toLowerCase());
+      if (thisIC == null) {
+        return;
+      }
+
+      if ((thisIC instanceof MC1110))
+      {
+        for (Iterator<SelftriggeredBaseIC> iterator = this.SensorList.values().iterator(); iterator.hasNext(); ) {
+          SelftriggeredBaseIC IC = iterator.next();
+          if ((!(IC instanceof MC1110)) || 
+            (!BlockUtils.LocationEquals(IC.getSignBlock().getBlock().getLocation(), block.getLocation()))) continue;
+          ((MC1110)IC).setStatus(event.getNewCurrent() > 0);
+          IC = null;
+          return;
+=======
+>>>>>>> e32ad78d5fc154c063494e58eed2206e9e03bc8b
         }
     }
 
@@ -769,6 +1084,55 @@ public class ICFactory {
         }
     }
 
+<<<<<<< HEAD
+      }
+
+      if ((this.TASK.getExeTaskID() == -1) && (this.TASK.getQueuedICs().size() > 0)) {
+        this.TASK.setExeTaskID(this.plugin.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, this.TASK, 1L));
+      }
+    }
+    else if ((block.getType().equals(Material.DIODE_BLOCK_OFF)) || (block.getType().equals(Material.DIODE_BLOCK_ON))) {
+      if (searchTry > 10) {
+        return;
+      }
+      int delay = delayTicks + (int)Math.floor(block.getData() / 4) + 1;
+      BlockRedstoneEvent rEvent = new BlockRedstoneEvent(block, event.getOldCurrent(), event.getNewCurrent());
+      int data = block.getData() % 4;
+      Block tBlock = block.getRelative(0, 0, 1);
+
+      if (data != 2)
+      {
+        if (data == 0)
+          tBlock = block.getRelative(0, 0, -1);
+        else if (data == 1)
+          tBlock = block.getRelative(1, 0, 0);
+        else if (data == 3)
+          tBlock = block.getRelative(-1, 0, 0);
+      }
+      if ((tBlock.getTypeId() == Material.DIODE_BLOCK_ON.getId()) || (tBlock.getTypeId() == Material.DIODE_BLOCK_OFF.getId())) {
+        if (tBlock.getData() % 4 == data)
+          handleRedstoneEvent(tBlock, rEvent, delay, searchTry + 1);
+      }
+      else handleRedstoneEvent(tBlock, rEvent, delay, searchTry + 1);
+    }
+  }
+
+  public void handleSignChange(SignChangeEvent event)
+  {
+    Player player = event.getPlayer();
+
+    BaseIC thisIC = getIC(event.getLine(0).toLowerCase());
+
+    if (thisIC == null)
+    	return;
+    
+	event.setLine(0, thisIC.getICNumber());
+
+    if (!event.getBlock().getType().equals(Material.WALL_SIGN)) {
+      event.setCancelled(true);
+      SignUtils.cancelSignCreation(event, "IC-Signs must be built on a wall.");
+      return;
+=======
     public HashMap<String, BaseIC> getRegisteredTICs() {
         HashMap<String, BaseIC> result = new HashMap<String, BaseIC>();
         result.putAll(this.registeredTICs);
@@ -781,25 +1145,46 @@ public class ICFactory {
 
     public int getRegisteredTICsSize() {
         return this.registeredTICs.size();
+>>>>>>> e32ad78d5fc154c063494e58eed2206e9e03bc8b
     }
 
     public int getRegisteredSTICsSize() {
         return this.registeredSTICs.size();
     }
 
+<<<<<<< HEAD
+=======
     public HashMap<String, SelftriggeredBaseIC> getRegisteredSTICs() {
         HashMap<String, SelftriggeredBaseIC> result = new HashMap<String, SelftriggeredBaseIC>();
         result.putAll(this.registeredSTICs);
         return result;
     }
+>>>>>>> e32ad78d5fc154c063494e58eed2206e9e03bc8b
 
     public Set<Entry<String, SelftriggeredBaseIC>> getRegisteredSTICsEntrys() {
         return this.registeredSTICs.entrySet();
     }
 
+<<<<<<< HEAD
+      SelftriggeredBaseIC nIC = this.registeredSTICs.get(event.getLine(0).toLowerCase());
+      boolean startUpComplete = false;
+      if (nIC != null)
+        try {
+          newIC = nIC.getClass().newInstance();
+          newIC.initIC(this.plugin, event.getBlock().getLocation());
+          newIC.checkCreation(event);
+          startUpComplete = newIC.onLoad(event.getLines());
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      else {
+        newIC = null;
+      }
+=======
     public Iterator<SelftriggeredBaseIC> getSensorListIterator() {
         return this.SensorList.values().iterator();
     }
+>>>>>>> e32ad78d5fc154c063494e58eed2206e9e03bc8b
 
     public void executeSTICs() {
         long start = System.nanoTime();
