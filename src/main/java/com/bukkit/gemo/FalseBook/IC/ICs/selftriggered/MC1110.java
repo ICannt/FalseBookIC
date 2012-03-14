@@ -18,7 +18,6 @@ public class MC1110 extends SelftriggeredBaseIC {
     boolean curStatus;
 
     public MC1110() {
-        setTypeID(2);
         this.ICName = "TRANSMITTER";
         this.ICNumber = "[MC1110]";
         setICGroup(ICGroup.SELFTRIGGERED);

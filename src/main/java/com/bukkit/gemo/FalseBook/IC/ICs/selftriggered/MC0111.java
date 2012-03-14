@@ -17,7 +17,6 @@ public class MC0111 extends SelftriggeredBaseIC {
     }
 
     public MC0111() {
-        setTypeID(3);
         this.ICName = "RECEIVER";
         this.ICNumber = "[MC0111]";
         setICGroup(ICGroup.SELFTRIGGERED);

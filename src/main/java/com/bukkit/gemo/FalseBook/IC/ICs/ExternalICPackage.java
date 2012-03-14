@@ -21,10 +21,6 @@ public abstract class ExternalICPackage {
         this.API_VERSION = API_VERSION;
     }
 
-    public static int getUniqueID(String string) {
-        return UUID.nameUUIDFromBytes(string.getBytes()).hashCode();
-    }
-
     protected void addIC(Class<?> clazz) {
         this.ICList.add(clazz);
     }
