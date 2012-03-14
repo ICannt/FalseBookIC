@@ -1,7 +1,6 @@
 package com.bukkit.gemo.FalseBook.IC;
 
-import com.bukkit.gemo.FalseBook.IC.ICs.NotLoadedIC;
-import com.bukkit.gemo.FalseBook.IC.ICs.SelftriggeredBaseIC;
+import com.bukkit.gemo.FalseBook.IC.ICs.*;
 import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -86,17 +85,43 @@ public class PersistenceHandler {
                         int resID = result.getInt("SensorId");
 
                         if (location.getBlock().getTypeId() == Material.WALL_SIGN.getId()) {
-                            Sign signBlock = (Sign) location.getBlock().getState();
-                            SelftriggeredBaseIC nIC = null;
-                            for (Entry<String, SelftriggeredBaseIC> entry : this.factory.getRegisteredSTICsEntrys()) {
-                                if (signBlock.getLine(1) == null) {
-                                    continue;
-                                }
-                                if ((((SelftriggeredBaseIC) entry.getValue()).getTypeID() == resID) && (((SelftriggeredBaseIC) entry.getValue()).getICNumber().equalsIgnoreCase(signBlock.getLine(1)))) {
-                                    nIC = (SelftriggeredBaseIC) entry.getValue();
-                                    break;
-                                }
+                            Sign signBlock = (Sign)location.getBlock().getState();
+                            BaseIC thisIC = factory.getIC(signBlock.getLine(0).toUpperCase());;
+ 
+                            if (thisIC == null) {
+                                boolean upgraded;
+
+                                // Loop over all upgrades.
+                                do {
+                                    upgraded = false;
+                                    if(ICUpgrade.needsUpgrade(signBlock.getLine(1))) {
+                                        ICUpgrader u = ICUpgrade.getUpgrader(signBlock.getLine(1));
+                                        if(u.preCheckUpgrade(signBlock)) {
+                                            u.upgrade(signBlock);
+                                            upgraded = true;
+                                        }
+                                    }
+                                    else if(ICUpgrade.needsUpgrade(signBlock.getLine(0))) {
+                                        ICUpgrader u = ICUpgrade.getUpgrader(signBlock.getLine(0));
+                                        if(u.preCheckUpgrade(signBlock)) {
+                                            u.upgrade(signBlock);
+                                            upgraded = true;
+                                        }
+                                    }
+                                    if(upgraded) {
+                                        String newName = signBlock.getLine(0).toLowerCase();
+                                        thisIC = factory.getIC(newName);
+                                        resID = newName.hashCode();
+                                    }
+                                } while(upgraded && thisIC == null);
                             }
+                            
+                            SelftriggeredBaseIC nIC = null;
+                            if(thisIC instanceof SelftriggeredBaseIC &&
+                                    resID == signBlock.getLine(0).toLowerCase().hashCode()) {
+                                nIC = (SelftriggeredBaseIC)thisIC;
+                            }
+                            
                             if (nIC != null) {
                                 try {
                                     boolean startUpComplete = false;
@@ -114,7 +139,7 @@ public class PersistenceHandler {
                                         loadedICs++;
                                         continue;
                                     }
-                                    this.factory.addFailedIC(new NotLoadedIC(ID, newIC.getSignBlock().getLine(1), newIC.getSignBlock().getLine(0), location));
+                                    this.factory.addFailedIC(new NotLoadedIC(ID, newIC.getSignBlock().getLine(0), "FAILED", location));
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }

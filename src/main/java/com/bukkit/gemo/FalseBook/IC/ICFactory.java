@@ -3,11 +3,7 @@ package com.bukkit.gemo.FalseBook.IC;
 import com.bukkit.gemo.FalseBook.IC.ExecutionEvents.DelayedICExecutionEvent;
 import com.bukkit.gemo.FalseBook.IC.ExecutionEvents.ICExecutionEvent;
 import com.bukkit.gemo.FalseBook.IC.ExecutionEvents.ICRunningTask;
-import com.bukkit.gemo.FalseBook.IC.ICs.BaseIC;
-import com.bukkit.gemo.FalseBook.IC.ICs.ExternalICPackage;
-import com.bukkit.gemo.FalseBook.IC.ICs.InputState;
-import com.bukkit.gemo.FalseBook.IC.ICs.NotLoadedIC;
-import com.bukkit.gemo.FalseBook.IC.ICs.SelftriggeredBaseIC;
+import com.bukkit.gemo.FalseBook.IC.ICs.*;
 import com.bukkit.gemo.FalseBook.IC.ICs.selftriggered.MC0111;
 import com.bukkit.gemo.FalseBook.IC.ICs.selftriggered.MC1110;
 import com.bukkit.gemo.FalseBook.IC.ICs.standard.MC1111;
@@ -543,7 +539,32 @@ public class ICFactory {
             }
             BaseIC thisIC = getIC(signBlock.getLine(1).toUpperCase());
             if (thisIC == null) {
-                return;
+                boolean upgraded = false;
+                
+                // Loop over all upgrades.
+                do {
+                    upgraded = false;
+                    if(ICUpgrade.needsUpgrade(signBlock.getLine(1))) {
+                        ICUpgrader u = ICUpgrade.getUpgrader(signBlock.getLine(1));
+                        if(u.preCheckUpgrade(signBlock)) {
+                            u.upgrade(signBlock);
+                            upgraded = true;
+                            thisIC = getIC(signBlock.getLine(0).toLowerCase());
+                        }
+                    }
+                    else if(ICUpgrade.needsUpgrade(signBlock.getLine(0))) {
+                        ICUpgrader u = ICUpgrade.getUpgrader(signBlock.getLine(0));
+                        if(u.preCheckUpgrade(signBlock)) {
+                            u.upgrade(signBlock);
+                            upgraded = true;
+                            thisIC = getIC(signBlock.getLine(0).toLowerCase());
+                        }
+                    }
+                } while(upgraded && thisIC == null);
+                    
+                if(thisIC == null) {
+                    return;
+                }
             }
 
             if ((thisIC instanceof MC1110)) {
