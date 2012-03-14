@@ -18,12 +18,12 @@ public class MC0111 extends SelftriggeredBaseIC {
 
     public MC0111() {
         this.ICName = "RECEIVER";
-        this.ICNumber = "[MC0111]";
+        this.ICNumber = "ics.receive";
         setICGroup(ICGroup.SELFTRIGGERED);
         this.chipState = new BaseChip(false, false, false, "", "", "");
         this.chipState.setOutputs("Received data", "", "");
         this.chipState.setLines("networkname", "");
-        this.ICDescription = "The MC0111 receives the state in a particular band or network.<br /><br />The corresponding transmitter is the MC1110.";
+        this.ICDescription = "The ics.receive receives the state in a particular band or network.<br /><br />The corresponding transmitter is the ics.transmit.";
     }
 
     public void checkCreation(SignChangeEvent event) {

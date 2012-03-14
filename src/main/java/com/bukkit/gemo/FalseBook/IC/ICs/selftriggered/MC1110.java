@@ -19,12 +19,12 @@ public class MC1110 extends SelftriggeredBaseIC {
 
     public MC1110() {
         this.ICName = "TRANSMITTER";
-        this.ICNumber = "[MC1110]";
+        this.ICNumber = "ics.transmit";
         setICGroup(ICGroup.SELFTRIGGERED);
         this.chipState = new BaseChip(false, false, false, "Data", "", "");
         this.chipState.setOutputs("Output = Input", "", "");
         this.chipState.setLines("networkname", "");
-        this.ICDescription = "The MC1110 transmits the input value to a particular named band or network.";
+        this.ICDescription = "The ics.transmit transmits the input value to a particular named band or network.";
     }
 
     public void checkCreation(SignChangeEvent event) {

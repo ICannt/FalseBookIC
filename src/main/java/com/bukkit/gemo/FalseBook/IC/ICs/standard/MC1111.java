@@ -16,12 +16,12 @@ public class MC1111 extends BaseIC {
 
     public MC1111() {
         this.ICName = "RECEIVER";
-        this.ICNumber = "[MC1111]";
+        this.ICNumber = "ic.receive";
         setICGroup(ICGroup.STANDARD);
         this.chipState = new BaseChip(true, false, false, "Clock", "", "");
         this.chipState.setOutputs("Received data", "", "");
         this.chipState.setLines("networkname", "");
-        this.ICDescription = "The MC1111 receives the state in a particular band or network when the clock input goes from low to high.<br /><br />The corresponding transmitter is the MC1110.";
+        this.ICDescription = "The ic.receive receives the state in a particular band or network when the clock input goes from low to high.<br /><br />The corresponding transmitter is the ics.transmit.";
     }
 
     public void checkCreation(SignChangeEvent event) {
