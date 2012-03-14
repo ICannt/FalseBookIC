@@ -6,80 +6,72 @@ import java.util.HashMap;
 import org.bukkit.Bukkit;
 
 public class ICRunningTask
-  implements Runnable
-{
-  private int maxExecutions = 500;
-  private int ExeTaskID = -1;
-  private ArrayList<ICExecutionEvent> queuedICs = new ArrayList<ICExecutionEvent>();
-  private HashMap<String, Integer> queuedICsPos = new HashMap<String, Integer>();
-  private FalseBookICCore plugin = null;
+        implements Runnable {
 
-  public ICRunningTask(FalseBookICCore instance) {
-    this.plugin = instance;
-  }
+    private int maxExecutions = 500;
+    private int ExeTaskID = -1;
+    private ArrayList<ICExecutionEvent> queuedICs = new ArrayList<ICExecutionEvent>();
+    private HashMap<String, Integer> queuedICsPos = new HashMap<String, Integer>();
+    private FalseBookICCore plugin = null;
 
-  public void run()
-  {
-    synchronized (this.queuedICs) {
-      if (this.queuedICs.size() == 0) {
-        this.ExeTaskID = -1;
-        return;
-      }
-
-      for (int i = this.queuedICs.size() - 1; i >= 0; i--) {
-        try {
-          this.queuedICs.get(i).Execute();
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-        this.queuedICsPos.remove(this.queuedICs.get(i).getSignBlock().getLocation().toString());
-        this.queuedICs.remove(i);
-      }
-
-      this.ExeTaskID = -1;
-
-      if ((this.ExeTaskID == -1) && (this.queuedICs.size() > 0))
-        this.ExeTaskID = Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, this, 1L);
+    public ICRunningTask(FalseBookICCore instance) {
+        this.plugin = instance;
     }
-  }
 
-  public int getMaxExecutions()
-  {
-    return this.maxExecutions;
-  }
+    public void run() {
+        synchronized (this.queuedICs) {
+            if (this.queuedICs.size() == 0) {
+                this.ExeTaskID = -1;
+                return;
+            }
 
-  public void setMaxExecutions(int maxExecutions)
-  {
-    this.maxExecutions = maxExecutions;
-  }
+            for (int i = this.queuedICs.size() - 1; i >= 0; i--) {
+                try {
+                    this.queuedICs.get(i).Execute();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                this.queuedICsPos.remove(this.queuedICs.get(i).getSignBlock().getLocation().toString());
+                this.queuedICs.remove(i);
+            }
 
-  public int getExeTaskID()
-  {
-    return this.ExeTaskID;
-  }
+            this.ExeTaskID = -1;
 
-  public void setExeTaskID(int exeTaskID)
-  {
-    this.ExeTaskID = exeTaskID;
-  }
+            if ((this.ExeTaskID == -1) && (this.queuedICs.size() > 0)) {
+                this.ExeTaskID = Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, this, 1L);
+            }
+        }
+    }
 
-  public ArrayList<ICExecutionEvent> getQueuedICs()
-  {
-    return this.queuedICs;
-  }
+    public int getMaxExecutions() {
+        return this.maxExecutions;
+    }
 
-  public void setQueuedICs(ArrayList<ICExecutionEvent> queuedICs)
-  {
-    this.queuedICs = queuedICs;
-  }
+    public void setMaxExecutions(int maxExecutions) {
+        this.maxExecutions = maxExecutions;
+    }
 
-  public HashMap<String, Integer> getQueuedICsPos()
-  {
-    return this.queuedICsPos;
-  }
+    public int getExeTaskID() {
+        return this.ExeTaskID;
+    }
 
-  public void setQueuedICsPos(HashMap<String, Integer> queuedICsPos)
-  {
-    this.queuedICsPos = queuedICsPos;
-  }
+    public void setExeTaskID(int exeTaskID) {
+        this.ExeTaskID = exeTaskID;
+    }
+
+    public ArrayList<ICExecutionEvent> getQueuedICs() {
+        return this.queuedICs;
+    }
+
+    public void setQueuedICs(ArrayList<ICExecutionEvent> queuedICs) {
+        this.queuedICs = queuedICs;
+    }
+
+    public HashMap<String, Integer> getQueuedICsPos() {
+        return this.queuedICsPos;
+    }
+
+    public void setQueuedICsPos(HashMap<String, Integer> queuedICsPos) {
+        this.queuedICsPos = queuedICsPos;
+    }
 }

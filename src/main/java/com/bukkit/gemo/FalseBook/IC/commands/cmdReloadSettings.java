@@ -8,29 +8,26 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class cmdReloadSettings extends Command
-{
-  public cmdReloadSettings(String pluginName, String syntax, String arguments, String node)
-  {
-    super(pluginName, syntax, arguments, node);
-    this.description = "Reload the IC-Settings";
-  }
+public class cmdReloadSettings extends Command {
 
-  public void execute(String[] args, CommandSender sender)
-  {
-    if ((sender instanceof Player))
-    {
-      Player player = (Player)sender;
-      if (!UtilPermissions.playerCanUseCommand(player, "falsebook.admin.ic")) {
-        ChatUtils.printError(player, this.pluginName, "You are not allowed to use this command.");
-        return;
-      }
-
+    public cmdReloadSettings(String pluginName, String syntax, String arguments, String node) {
+        super(pluginName, syntax, arguments, node);
+        this.description = "Reload the IC-Settings";
     }
 
-    ChatUtils.printInfo(sender, "[FB-IC]", ChatColor.YELLOW, "Reloading IC-Settings...");
-    FalseBookICCore.getInstance().loadSettings("FalseBook/FalseBookIC.properties");
-    ChatUtils.printInfo(sender, "[FB-IC]", ChatColor.YELLOW, "IC-Settings reloaded successfully!");
-    ChatUtils.printInfo(sender, "", ChatColor.GRAY, "Type /reload to apply the changes.");
-  }
+    public void execute(String[] args, CommandSender sender) {
+        if ((sender instanceof Player)) {
+            Player player = (Player) sender;
+            if (!UtilPermissions.playerCanUseCommand(player, "falsebook.admin.ic")) {
+                ChatUtils.printError(player, this.pluginName, "You are not allowed to use this command.");
+                return;
+            }
+
+        }
+
+        ChatUtils.printInfo(sender, "[FB-IC]", ChatColor.YELLOW, "Reloading IC-Settings...");
+        FalseBookICCore.getInstance().loadSettings("FalseBook/FalseBookIC.properties");
+        ChatUtils.printInfo(sender, "[FB-IC]", ChatColor.YELLOW, "IC-Settings reloaded successfully!");
+        ChatUtils.printInfo(sender, "", ChatColor.GRAY, "Type /reload to apply the changes.");
+    }
 }

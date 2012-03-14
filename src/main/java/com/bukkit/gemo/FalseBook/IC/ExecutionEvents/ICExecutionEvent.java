@@ -5,24 +5,23 @@ import com.bukkit.gemo.FalseBook.IC.ICs.InputState;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 
-public class ICExecutionEvent
-{
-  private IC thisIC = null;
-  private Sign signBlock = null;
-  private InputState oldInputs;
+public class ICExecutionEvent {
 
-  public ICExecutionEvent(IC thisIC, Sign signBlock, InputState oldInputs)
-  {
-    this.thisIC = thisIC;
-    this.signBlock = signBlock;
-    this.oldInputs = oldInputs;
-  }
+    private IC thisIC = null;
+    private Sign signBlock = null;
+    private InputState oldInputs;
 
-  public Block getSignBlock() {
-    return this.signBlock.getBlock();
-  }
+    public ICExecutionEvent(IC thisIC, Sign signBlock, InputState oldInputs) {
+        this.thisIC = thisIC;
+        this.signBlock = signBlock;
+        this.oldInputs = oldInputs;
+    }
 
-  public void Execute() {
-    this.thisIC.RawExecute(this.signBlock, new InputState(this.signBlock), this.oldInputs);
-  }
+    public Block getSignBlock() {
+        return this.signBlock.getBlock();
+    }
+
+    public void Execute() {
+        this.thisIC.RawExecute(this.signBlock, new InputState(this.signBlock), this.oldInputs);
+    }
 }

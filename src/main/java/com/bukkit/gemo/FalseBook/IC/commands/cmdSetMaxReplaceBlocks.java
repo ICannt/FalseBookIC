@@ -9,35 +9,32 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class cmdSetMaxReplaceBlocks extends Command
-{
-  public cmdSetMaxReplaceBlocks(String pluginName, String syntax, String arguments, String node)
-  {
-    super(pluginName, syntax, arguments, node);
-    this.description = "Set the ticks between the execution of selftriggered ICs";
-  }
+public class cmdSetMaxReplaceBlocks extends Command {
 
-  public void execute(String[] args, CommandSender sender)
-  {
-    if ((sender instanceof Player))
-    {
-      Player player = (Player)sender;
-      if (!UtilPermissions.playerCanUseCommand(player, "falsebook.admin.ic")) {
-        ChatUtils.printError(player, this.pluginName, "You are not allowed to use this command.");
-        return;
-      }
-
+    public cmdSetMaxReplaceBlocks(String pluginName, String syntax, String arguments, String node) {
+        super(pluginName, syntax, arguments, node);
+        this.description = "Set the ticks between the execution of selftriggered ICs";
     }
 
-    if (!Parser.isInteger(args[0])) {
-      ChatUtils.printError(sender, this.pluginName, "The argument must be an integer.");
-      return;
-    }
+    public void execute(String[] args, CommandSender sender) {
+        if ((sender instanceof Player)) {
+            Player player = (Player) sender;
+            if (!UtilPermissions.playerCanUseCommand(player, "falsebook.admin.ic")) {
+                ChatUtils.printError(player, this.pluginName, "You are not allowed to use this command.");
+                return;
+            }
 
-    FalseBookICCore core = FalseBookICCore.getInstance();
-    core.setMaxReplaceBlocks(Parser.getInteger(args[0], 2500));
-    core.saveSettings("FalseBook/FalseBookIC.properties");
-    ChatUtils.printInfo(sender, "[FB-IC]", ChatColor.YELLOW, "maxReplaceBlocks set to: " + core.getMaxReplaceBlocks());
-    ChatUtils.printLine(sender, ChatColor.GRAY, "Type /reload to apply the changes.");
-  }
+        }
+
+        if (!Parser.isInteger(args[0])) {
+            ChatUtils.printError(sender, this.pluginName, "The argument must be an integer.");
+            return;
+        }
+
+        FalseBookICCore core = FalseBookICCore.getInstance();
+        core.setMaxReplaceBlocks(Parser.getInteger(args[0], 2500));
+        core.saveSettings("FalseBook/FalseBookIC.properties");
+        ChatUtils.printInfo(sender, "[FB-IC]", ChatColor.YELLOW, "maxReplaceBlocks set to: " + core.getMaxReplaceBlocks());
+        ChatUtils.printLine(sender, ChatColor.GRAY, "Type /reload to apply the changes.");
+    }
 }
