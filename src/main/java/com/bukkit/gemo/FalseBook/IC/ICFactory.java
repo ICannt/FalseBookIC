@@ -219,9 +219,12 @@ public class ICFactory
 
   public BaseIC getIC(String line)
   {
-    line = line.toUpperCase();
+    line = line.toLowerCase();
     if (this.registeredTICs.get(line) == null) {
-      return this.registeredSTICs.get(line);
+	   	 BaseIC auto = getICByAuto(line);
+	   	 if (auto != null)
+	   		 return auto;
+	   	 return this.registeredSTICs.get(line);
     }
     return this.registeredTICs.get(line);
   }
@@ -247,6 +250,22 @@ public class ICFactory
 
     return null;
   }
+  
+  public BaseIC getICByAuto(String line)
+  {
+	  if (line.length() < 5)
+		  return null;
+	  
+	  line = line.toLowerCase().trim();
+      for (BaseIC entry : this.registeredTICs.values()) {
+    	  if (entry.getICNumber().length() >= line.length())
+    		  if (entry.getICNumber().substring(0, line.length()).equals(line))
+    			  return entry;
+      }
+
+      return null;
+  }
+
 
   public SelftriggeredBaseIC getSTIC(String line)
   {
@@ -265,7 +284,7 @@ public class ICFactory
         Block block = blockList.get(i);
         if (block.getType().equals(Material.WALL_SIGN)) {
           Sign signBlock = (Sign)block.getState();
-          BaseIC thisIC = getIC(signBlock.getLine(1).toUpperCase());
+          BaseIC thisIC = getIC(signBlock.getLine(0).toLowerCase());
 
           if (thisIC != null)
             return false;
@@ -282,7 +301,7 @@ public class ICFactory
               signData = signBlock.getRawData();
               if (((signData != 2) || (j != 3)) && ((signData != 4) || (j != 1)) && ((signData != 5) || (j != 0)) && ((signData != 3) || (j != 2)))
                 continue;
-              BaseIC thisIC = getIC(signBlock.getLine(1).toUpperCase());
+              BaseIC thisIC = getIC(signBlock.getLine(0).toLowerCase());
               if (thisIC != null)
                 return false;
             }
@@ -301,7 +320,7 @@ public class ICFactory
     try {
       if (block.getType().equals(Material.WALL_SIGN)) {
         Sign signBlock = (Sign)block.getState();
-        BaseIC thisIC = getIC(signBlock.getLine(1).toUpperCase());
+        BaseIC thisIC = getIC(signBlock.getLine(0).toLowerCase());
 
         if (thisIC != null)
           return false;
@@ -318,7 +337,7 @@ public class ICFactory
             signData = signBlock.getRawData();
             if (((signData != 2) || (j != 3)) && ((signData != 4) || (j != 1)) && ((signData != 5) || (j != 0)) && ((signData != 3) || (j != 2)))
               continue;
-            BaseIC thisIC = getIC(signBlock.getLine(1).toUpperCase());
+            BaseIC thisIC = getIC(signBlock.getLine(0).toLowerCase());
             if (thisIC != null)
               return false;
           }
@@ -357,7 +376,7 @@ public class ICFactory
         for (Block block : event.blockList())
           if (block.getType().equals(Material.WALL_SIGN)) {
             Sign signBlock = (Sign)block.getState();
-            BaseIC thisIC = getIC(signBlock.getLine(1).toUpperCase());
+            BaseIC thisIC = getIC(signBlock.getLine(0).toLowerCase());
 
             if (thisIC == null)
               continue;
@@ -395,7 +414,7 @@ public class ICFactory
                 signData = signBlock.getRawData();
                 if (((signData != 2) || (i != 3)) && ((signData != 4) || (i != 1)) && ((signData != 5) || (i != 0)) && ((signData != 3) || (i != 2)))
                   continue;
-                BaseIC thisIC = getIC(signBlock.getLine(1).toUpperCase());
+                BaseIC thisIC = getIC(signBlock.getLine(0).toLowerCase());
                 if (thisIC == null)
                   continue;
                 SelftriggeredBaseIC IC;
@@ -453,7 +472,7 @@ public class ICFactory
     Block block = event.getBlock();
     if (block.getType().equals(Material.WALL_SIGN)) {
       Sign signBlock = (Sign)block.getState();
-      BaseIC thisIC = getIC(signBlock.getLine(1).toUpperCase());
+      BaseIC thisIC = getIC(signBlock.getLine(0).toLowerCase());
 
       if (thisIC == null) {
         return;
@@ -493,7 +512,7 @@ public class ICFactory
           ChatUtils.printError(event.getPlayer(), "[FB-IC]", "You are not allowed to destroy this IC!");
           return;
         }
-        ChatUtils.printSuccess(event.getPlayer(), "[FB-IC]", thisIC.getICNumber() + " removed.");
+        ChatUtils.printSuccess(event.getPlayer(), "[FB-IC]", thisIC.getICName() +  " (" + thisIC.getICNumber() + ") removed.");
       }
 
       signBlock = null;
@@ -512,7 +531,7 @@ public class ICFactory
           signData = signBlock.getRawData();
           if (((signData != 2) || (i != 3)) && ((signData != 4) || (i != 1)) && ((signData != 5) || (i != 0)) && ((signData != 3) || (i != 2)))
             continue;
-          BaseIC thisIC = getIC(signBlock.getLine(1).toUpperCase());
+          BaseIC thisIC = getIC(signBlock.getLine(0).toLowerCase());
           if (thisIC == null)
           {
             continue;
@@ -569,7 +588,7 @@ public class ICFactory
       if (signBlock.getLine(1) == null) {
         return;
       }
-      BaseIC thisIC = getIC(signBlock.getLine(1).toUpperCase());
+      BaseIC thisIC = getIC(signBlock.getLine(0).toLowerCase());
       if (thisIC == null) {
         return;
       }
@@ -648,26 +667,16 @@ public class ICFactory
   {
     Player player = event.getPlayer();
 
-    BaseIC thisIC = getIC(event.getLine(1).toUpperCase());
+    BaseIC thisIC = getIC(event.getLine(0).toLowerCase());
 
     if (thisIC == null)
-    {
-      String name = event.getLine(0).replace(" ", "").replace("_", "").replace("-", "");
-      thisIC = getICByName(name);
-      if (thisIC != null)
-      {
-        event.setLine(0, thisIC.getICName());
-        event.setLine(1, thisIC.getICNumber());
-      }
-      else {
-        return;
-      }
-
-    }
+    	return;
+    
+	event.setLine(0, thisIC.getICNumber());
 
     if (!event.getBlock().getType().equals(Material.WALL_SIGN)) {
       event.setCancelled(true);
-      SignUtils.cancelSignCreation(event, "IC-Signs must be build on a wall.");
+      SignUtils.cancelSignCreation(event, "IC-Signs must be built on a wall.");
       return;
     }
 
@@ -677,8 +686,6 @@ public class ICFactory
       return;
     }
 
-    event.setLine(0, thisIC.getICName());
-    event.setLine(1, thisIC.getICNumber());
 
     if (!(thisIC instanceof SelftriggeredBaseIC)) {
       thisIC.checkCreation(event);
@@ -690,7 +697,7 @@ public class ICFactory
     else {
       SelftriggeredBaseIC newIC = null;
 
-      SelftriggeredBaseIC nIC = this.registeredSTICs.get(event.getLine(1).toUpperCase());
+      SelftriggeredBaseIC nIC = this.registeredSTICs.get(event.getLine(0).toLowerCase());
       boolean startUpComplete = false;
       if (nIC != null)
         try {

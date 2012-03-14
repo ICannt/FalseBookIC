@@ -33,10 +33,10 @@ public class BaseDataChip extends BaseIC
 		switchLever(lever, signBlock, true, distance);
 		
 		// pulse
-		Integer pulse = 2;
-		if(signBlock.getLine(2).length() > 0) {
+		Integer pulse = 4;
+		if(signBlock.getLine(1).length() > 0) {
 			try {
-				pulse = Integer.parseInt(signBlock.getLine(2));
+				pulse = Integer.parseInt(signBlock.getLine(1));
 			} catch (Exception e) {
 			}
 		}
