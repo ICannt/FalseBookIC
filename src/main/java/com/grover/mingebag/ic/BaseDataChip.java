@@ -137,7 +137,7 @@ public class BaseDataChip extends BaseIC
 			type = core.getFactory().getDataTypeManager().getDataType(loc);
 		}
 		if(direction == 4) {
-			loc.setZ(loc.getZ()-1d);
+			loc.setX(loc.getZ()-1d);
 			type = core.getFactory().getDataTypeManager().getDataType(loc);
 		}
 		if(type == null) {
@@ -163,7 +163,7 @@ public class BaseDataChip extends BaseIC
 			type = core.getFactory().getDataTypeManager().getDataType(loc);
 		}
 		if(direction == 4) {
-			loc.setZ(loc.getZ()+1d);
+			loc.setX(loc.getZ()+1d);
 			type = core.getFactory().getDataTypeManager().getDataType(loc);
 		}
 		if(type == null) {
