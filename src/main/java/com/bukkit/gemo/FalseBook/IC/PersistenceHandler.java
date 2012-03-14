@@ -114,6 +114,10 @@ public class PersistenceHandler {
                                         resID = newName.hashCode();
                                     }
                                 } while(upgraded && thisIC == null);
+                                
+                                if(upgraded && thisIC != null) {
+                                    this.dbHandler.updateIC(ID, resID);
+                                }
                             }
                             
                             SelftriggeredBaseIC nIC = null;

@@ -86,13 +86,13 @@ public class DatabaseHandler {
         }
     }
 
-    public void removeSelftriggeredIC(int SensorID) {
+    public void removeSelftriggeredIC(int ID) {
         try {
             Statement statement = this.conHandler.getConnection().createStatement();
-            statement.executeUpdate("DELETE FROM SensorICs WHERE Id=" + SensorID + ";");
+            statement.executeUpdate("DELETE FROM SensorICs WHERE Id=" + ID + ";");
         } catch (Exception e) {
             FalseBookICCore.printInConsole("----------------------------------------");
-            FalseBookICCore.printInConsole("ERROR while executing SQL: removeSelftriggeredIC(int SensorID)!");
+            FalseBookICCore.printInConsole("ERROR while executing SQL: removeSelftriggeredIC(int ID)!");
             FalseBookICCore.printInConsole("----------------------------------------");
             e.printStackTrace();
             FalseBookICCore.printInConsole("----------------------------------------");
@@ -154,6 +154,20 @@ public class DatabaseHandler {
         } catch (Exception e) {
             FalseBookICCore.printInConsole("----------------------------------------");
             FalseBookICCore.printInConsole("Error while executing SQL: addIC(int SensorID, Location location)!");
+            FalseBookICCore.printInConsole("----------------------------------------");
+            e.printStackTrace();
+            FalseBookICCore.printInConsole("----------------------------------------");
+        }
+        return false;
+    }
+    
+    public boolean updateIC(int ID, int newSensorID) {
+        try {
+            Statement statement = this.conHandler.getConnection().createStatement();
+            return statement.executeUpdate("UPDATE SensorICs SET SensorID='" + newSensorID + "' WHERE ID='" + ID + "'") == 1;
+        } catch (Exception e) {
+            FalseBookICCore.printInConsole("----------------------------------------");
+            FalseBookICCore.printInConsole("Error while executing SQL: updateIC(int ID, int SensorID, Location location)!");
             FalseBookICCore.printInConsole("----------------------------------------");
             e.printStackTrace();
             FalseBookICCore.printInConsole("----------------------------------------");

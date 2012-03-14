@@ -10,7 +10,6 @@ import org.bukkit.event.block.SignChangeEvent;
 
 public class SelftriggeredBaseIC extends BaseIC {
 
-    private int TypeID = -1;
     protected boolean oldStatus = false;
 
     public SelftriggeredBaseIC() {
@@ -64,10 +63,6 @@ public class SelftriggeredBaseIC extends BaseIC {
     }
 
     public int getTypeID() {
-        return this.TypeID;
-    }
-
-    protected void setTypeID(int typeID) {
-        this.TypeID = typeID;
+        return this.ICName.toLowerCase().hashCode();
     }
 }
