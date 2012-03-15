@@ -41,10 +41,10 @@ public class ICSTransmitter extends SelftriggeredBaseIC {
     public boolean onLoad(String[] lines) {
         this.networkName = "DEFAULT";
         if (lines[1].length() > 0) {
-            this.networkName = lines[2];
+            this.networkName = lines[1];
         }
         if (lines[2].length() > 0) {
-            this.mainNetwork = lines[3];
+            this.mainNetwork = lines[2];
         }
         lines[1] = this.networkName;
         lines[2] = this.mainNetwork;
