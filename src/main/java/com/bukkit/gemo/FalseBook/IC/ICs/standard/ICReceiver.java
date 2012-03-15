@@ -6,7 +6,7 @@ import com.bukkit.gemo.FalseBook.IC.ICs.ICGroup;
 import com.bukkit.gemo.FalseBook.IC.ICs.InputState;
 import com.bukkit.gemo.FalseBook.IC.ICs.Lever;
 import com.bukkit.gemo.FalseBook.IC.ICs.SelftriggeredBaseIC;
-import com.bukkit.gemo.FalseBook.IC.ICs.selftriggered.ICTransmitter;
+import com.bukkit.gemo.FalseBook.IC.ICs.selftriggered.ICSTransmitter;
 import com.bukkit.gemo.utils.SignUtils;
 import java.util.Iterator;
 import org.bukkit.block.Sign;
@@ -40,12 +40,12 @@ public class ICReceiver extends BaseIC {
 
                 for (Iterator<SelftriggeredBaseIC> iterator = this.core.getFactory().getSensorListIterator(); iterator.hasNext();) {
                     SelftriggeredBaseIC IC = iterator.next();
-                    if ((!(IC instanceof ICTransmitter))
-                            || (!networkName.equalsIgnoreCase(((ICTransmitter) IC).getNetworkName()))
-                            || (!((ICTransmitter) IC).getStatus())) {
+                    if ((!(IC instanceof ICSTransmitter))
+                            || (!networkName.equalsIgnoreCase(((ICSTransmitter) IC).getNetworkName()))
+                            || (!((ICSTransmitter) IC).getStatus())) {
                         continue;
                     }
-                    if (!mainNetwork.equalsIgnoreCase(((ICTransmitter) IC).getMainNetwork())) {
+                    if (!mainNetwork.equalsIgnoreCase(((ICSTransmitter) IC).getMainNetwork())) {
                         continue;
                     }
                     result = true;

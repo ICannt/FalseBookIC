@@ -5,7 +5,7 @@ import com.bukkit.gemo.FalseBook.IC.ExecutionEvents.ICExecutionEvent;
 import com.bukkit.gemo.FalseBook.IC.ExecutionEvents.ICRunningTask;
 import com.bukkit.gemo.FalseBook.IC.ICs.*;
 import com.bukkit.gemo.FalseBook.IC.ICs.selftriggered.ICSReceiver;
-import com.bukkit.gemo.FalseBook.IC.ICs.selftriggered.ICTransmitter;
+import com.bukkit.gemo.FalseBook.IC.ICs.selftriggered.ICSTransmitter;
 import com.bukkit.gemo.FalseBook.IC.ICs.standard.ICReceiver;
 import com.bukkit.gemo.FalseBook.IC.Plugins.SelfmadeICLoader;
 import com.bukkit.gemo.utils.BlockUtils;
@@ -74,18 +74,6 @@ public class ICFactory {
         }, 10000, 10000);
     }
 
-    public void ExportSTICsToWiki() {
-        for (Iterator<SelftriggeredBaseIC> iterator = this.registeredSTICs.values().iterator(); iterator.hasNext();) {
-            BaseIC IC = iterator.next();
-        }
-    }
-
-    public void ExportTICsToWiki() {
-        for (Iterator<BaseIC> iterator = this.registeredTICs.values().iterator(); iterator.hasNext();) {
-            BaseIC IC = iterator.next();
-        }
-    }
-
     private void registerSingleTIC(BaseIC thisIC) {
         thisIC.initCore();
         this.registeredTICs.put(thisIC.getICNumber().toUpperCase(), thisIC);
@@ -106,7 +94,7 @@ public class ICFactory {
         registerSingleSTIC(new ICSReceiver());
         
         ICUpgrade.addUpgrader("[MC1110]", new ICUpgraderMC("ics.transmit"));
-        registerSingleSTIC(new ICTransmitter());
+        registerSingleSTIC(new ICSTransmitter());
         
         ICUpgrade.addUpgrader("[MC1111]", new ICUpgraderMC("ic.receive"));
         registerSingleTIC(new ICReceiver());
@@ -609,14 +597,14 @@ public class ICFactory {
                 }
             }
 
-            if ((thisIC instanceof ICTransmitter)) {
+            if ((thisIC instanceof ICSTransmitter)) {
                 for (Iterator<SelftriggeredBaseIC> iterator = this.SensorList.values().iterator(); iterator.hasNext();) {
                     SelftriggeredBaseIC IC = iterator.next();
-                    if ((!(IC instanceof ICTransmitter))
+                    if ((!(IC instanceof ICSTransmitter))
                             || (!BlockUtils.LocationEquals(IC.getSignBlock().getBlock().getLocation(), block.getLocation()))) {
                         continue;
                     }
-                    ((ICTransmitter) IC).setStatus(event.getNewCurrent() > 0);
+                    ((ICSTransmitter) IC).setStatus(event.getNewCurrent() > 0);
                     IC = null;
                     return;
                 }

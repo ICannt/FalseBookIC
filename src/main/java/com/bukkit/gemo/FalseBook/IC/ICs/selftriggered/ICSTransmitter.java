@@ -11,13 +11,13 @@ import java.util.Iterator;
 import org.bukkit.Location;
 import org.bukkit.event.block.SignChangeEvent;
 
-public class ICTransmitter extends SelftriggeredBaseIC {
+public class ICSTransmitter extends SelftriggeredBaseIC {
 
     private String networkName = "";
     private String mainNetwork = "";
     boolean curStatus;
 
-    public ICTransmitter() {
+    public ICSTransmitter() {
         this.ICName = "TRANSMITTER";
         this.ICNumber = "ics.transmit";
         setICGroup(ICGroup.SELFTRIGGERED);
