@@ -11,13 +11,13 @@ import java.util.Iterator;
 import org.bukkit.Location;
 import org.bukkit.event.block.SignChangeEvent;
 
-public class MC1110 extends SelftriggeredBaseIC {
+public class ICTransmitter extends SelftriggeredBaseIC {
 
     private String networkName = "";
     private String mainNetwork = "";
     boolean curStatus;
 
-    public MC1110() {
+    public ICTransmitter() {
         this.ICName = "TRANSMITTER";
         this.ICNumber = "ics.transmit";
         setICGroup(ICGroup.SELFTRIGGERED);
@@ -28,11 +28,11 @@ public class MC1110 extends SelftriggeredBaseIC {
     }
 
     public void checkCreation(SignChangeEvent event) {
-        if (event.getLine(2) == null) {
+        if (event.getLine(1) == null) {
             SignUtils.cancelSignCreation(event, "Please define a Networkname!");
             return;
         }
-        if (event.getLine(2).length() < 1) {
+        if (event.getLine(1).length() < 1) {
             SignUtils.cancelSignCreation(event, "Please define a Networkname!");
             return;
         }
@@ -40,14 +40,14 @@ public class MC1110 extends SelftriggeredBaseIC {
 
     public boolean onLoad(String[] lines) {
         this.networkName = "DEFAULT";
-        if (lines[2].length() > 0) {
+        if (lines[1].length() > 0) {
             this.networkName = lines[2];
         }
-        if (lines[3].length() > 0) {
+        if (lines[2].length() > 0) {
             this.mainNetwork = lines[3];
         }
-        lines[2] = this.networkName;
-        lines[3] = this.mainNetwork;
+        lines[1] = this.networkName;
+        lines[2] = this.mainNetwork;
         return true;
     }
 
@@ -60,14 +60,14 @@ public class MC1110 extends SelftriggeredBaseIC {
 
             for (Iterator<SelftriggeredBaseIC> iterator = this.core.getFactory().getSensorListIterator(); iterator.hasNext();) {
                 SelftriggeredBaseIC IC = iterator.next();
-                if ((!(IC instanceof MC0111))
-                        || (!this.networkName.equalsIgnoreCase(((MC0111) IC).getNetworkName()))) {
+                if ((!(IC instanceof ICSReceiver))
+                        || (!this.networkName.equalsIgnoreCase(((ICSReceiver) IC).getNetworkName()))) {
                     continue;
                 }
-                if (!this.mainNetwork.equalsIgnoreCase(((MC0111) IC).getMainNetwork())) {
+                if (!this.mainNetwork.equalsIgnoreCase(((ICSReceiver) IC).getMainNetwork())) {
                     continue;
                 }
-                ((MC0111) IC).setStatus(newStatus);
+                ((ICSReceiver) IC).setStatus(newStatus);
 
 
             }

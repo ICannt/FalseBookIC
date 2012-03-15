@@ -7,7 +7,7 @@ import com.bukkit.gemo.FalseBook.IC.ICs.SelftriggeredBaseIC;
 import com.bukkit.gemo.utils.SignUtils;
 import org.bukkit.event.block.SignChangeEvent;
 
-public class MC0111 extends SelftriggeredBaseIC {
+public class ICSReceiver extends SelftriggeredBaseIC {
 
     private String networkName = "";
     private String mainNetwork = "";
@@ -16,7 +16,7 @@ public class MC0111 extends SelftriggeredBaseIC {
         return this.networkName;
     }
 
-    public MC0111() {
+    public ICSReceiver() {
         this.ICName = "RECEIVER";
         this.ICNumber = "ics.receive";
         setICGroup(ICGroup.SELFTRIGGERED);
@@ -27,32 +27,32 @@ public class MC0111 extends SelftriggeredBaseIC {
     }
 
     public void checkCreation(SignChangeEvent event) {
-        if (event.getLine(2) == null) {
+        if (event.getLine(1) == null) {
             SignUtils.cancelSignCreation(event, "Please define a Networkname!");
             return;
         }
-        if (event.getLine(2).length() < 1) {
+        if (event.getLine(1).length() < 1) {
             SignUtils.cancelSignCreation(event, "Please define a Networkname!");
             return;
         }
-        this.networkName = event.getLine(2);
+        this.networkName = event.getLine(1);
 
-        if (event.getLine(3).length() > 0) {
-            this.mainNetwork = event.getLine(3);
+        if (event.getLine(2).length() > 0) {
+            this.mainNetwork = event.getLine(2);
         }
     }
 
     public boolean onLoad(String[] lines) {
         this.networkName = "DEFAULT";
-        if (lines[2].length() > 0) {
-            this.networkName = lines[2];
+        if (lines[1].length() > 0) {
+            this.networkName = lines[1];
         } else {
-            lines[2] = this.networkName;
+            lines[1] = this.networkName;
         }
-        if (lines[3].length() > 0) {
-            this.mainNetwork = lines[3];
+        if (lines[2].length() > 0) {
+            this.mainNetwork = lines[2];
         } else {
-            lines[3] = this.mainNetwork;
+            lines[2] = this.mainNetwork;
         }
         return true;
     }

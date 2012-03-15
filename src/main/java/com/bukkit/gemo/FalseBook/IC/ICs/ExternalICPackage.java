@@ -24,6 +24,10 @@ public abstract class ExternalICPackage {
     protected void addIC(Class<?> clazz) {
         this.ICList.add(clazz);
     }
+    
+    protected void addUpgrader(String from, ICUpgrader upgrader) {
+        ICUpgrade.addUpgrader(from, upgrader);
+    }
 
     public boolean isShowImportMessages() {
         return this.showImportMessages;

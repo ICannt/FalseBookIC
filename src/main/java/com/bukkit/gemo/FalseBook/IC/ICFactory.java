@@ -4,9 +4,9 @@ import com.bukkit.gemo.FalseBook.IC.ExecutionEvents.DelayedICExecutionEvent;
 import com.bukkit.gemo.FalseBook.IC.ExecutionEvents.ICExecutionEvent;
 import com.bukkit.gemo.FalseBook.IC.ExecutionEvents.ICRunningTask;
 import com.bukkit.gemo.FalseBook.IC.ICs.*;
-import com.bukkit.gemo.FalseBook.IC.ICs.selftriggered.MC0111;
-import com.bukkit.gemo.FalseBook.IC.ICs.selftriggered.MC1110;
-import com.bukkit.gemo.FalseBook.IC.ICs.standard.MC1111;
+import com.bukkit.gemo.FalseBook.IC.ICs.selftriggered.ICSReceiver;
+import com.bukkit.gemo.FalseBook.IC.ICs.selftriggered.ICTransmitter;
+import com.bukkit.gemo.FalseBook.IC.ICs.standard.ICReceiver;
 import com.bukkit.gemo.FalseBook.IC.Plugins.SelfmadeICLoader;
 import com.bukkit.gemo.utils.BlockUtils;
 import com.bukkit.gemo.utils.ChatUtils;
@@ -103,13 +103,13 @@ public class ICFactory {
 
     private void registerICs() {
         ICUpgrade.addUpgrader("[MC0111]", new ICUpgraderMC("ics.receive"));
-        registerSingleSTIC(new MC0111());
+        registerSingleSTIC(new ICSReceiver());
         
         ICUpgrade.addUpgrader("[MC1110]", new ICUpgraderMC("ics.transmit"));
-        registerSingleSTIC(new MC1110());
+        registerSingleSTIC(new ICTransmitter());
         
         ICUpgrade.addUpgrader("[MC1111]", new ICUpgraderMC("ic.receive"));
-        registerSingleTIC(new MC1111());
+        registerSingleTIC(new ICReceiver());
     }
 
     private boolean checkICInstance(Object thisIC) {
@@ -580,14 +580,14 @@ public class ICFactory {
                 return;
             }
 
-            if ((thisIC instanceof MC1110)) {
+            if ((thisIC instanceof ICTransmitter)) {
                 for (Iterator<SelftriggeredBaseIC> iterator = this.SensorList.values().iterator(); iterator.hasNext();) {
                     SelftriggeredBaseIC IC = iterator.next();
-                    if ((!(IC instanceof MC1110))
+                    if ((!(IC instanceof ICTransmitter))
                             || (!BlockUtils.LocationEquals(IC.getSignBlock().getBlock().getLocation(), block.getLocation()))) {
                         continue;
                     }
-                    ((MC1110) IC).setStatus(event.getNewCurrent() > 0);
+                    ((ICTransmitter) IC).setStatus(event.getNewCurrent() > 0);
                     IC = null;
                     return;
                 }
