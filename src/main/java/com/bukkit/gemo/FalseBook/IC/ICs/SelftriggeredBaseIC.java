@@ -43,7 +43,7 @@ public class SelftriggeredBaseIC extends BaseIC {
             return false;
         }
         this.signBlock = ((Sign) location.getBlock().getState());
-        if (!this.signBlock.getLine(1).equalsIgnoreCase(this.ICNumber)) {
+        if (!this.signBlock.getLine(0).equalsIgnoreCase(this.ICNumber)) {
             return false;
         }
         this.oldStatus = ICUtils.isLeverActive(this.signBlock);
@@ -63,6 +63,6 @@ public class SelftriggeredBaseIC extends BaseIC {
     }
 
     public int getTypeID() {
-        return this.ICName.toLowerCase().hashCode();
+        return this.ICNumber.toLowerCase().hashCode();
     }
 }
