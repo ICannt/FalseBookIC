@@ -572,12 +572,41 @@ public class ICFactory {
             if (signBlock == null) {
                 return;
             }
-            if (signBlock.getLine(1) == null) {
+            
+            if (signBlock.getLine(0) == null) {
                 return;
             }
+            
             BaseIC thisIC = getIC(signBlock.getLine(0).toLowerCase());
             if (thisIC == null) {
-                return;
+                boolean upgraded;
+
+                // Loop over all upgrades.
+                do {
+                    upgraded = false;
+                    if(ICUpgrade.needsUpgrade(signBlock.getLine(1))) {
+                        ICUpgrader u = ICUpgrade.getUpgrader(signBlock.getLine(1));
+                        if(u.preCheckUpgrade(signBlock)) {
+                            u.upgrade(signBlock);
+                            upgraded = true;
+                        }
+                    }
+                    else if(ICUpgrade.needsUpgrade(signBlock.getLine(0))) {
+                        ICUpgrader u = ICUpgrade.getUpgrader(signBlock.getLine(0));
+                        if(u.preCheckUpgrade(signBlock)) {
+                            u.upgrade(signBlock);
+                            upgraded = true;
+                        }
+                    }
+                    if(upgraded) {
+                        String newName = signBlock.getLine(0).toLowerCase();
+                        thisIC = getIC(newName);
+                    }
+                } while(upgraded && thisIC == null);
+
+                if(thisIC == null) {
+                    return;
+                }
             }
 
             if ((thisIC instanceof ICTransmitter)) {
@@ -656,7 +685,34 @@ public class ICFactory {
         BaseIC thisIC = getIC(event.getLine(0).toLowerCase());
 
         if (thisIC == null) {
-            return;
+            boolean upgraded;
+
+            // Loop over all upgrades.
+            do {
+                upgraded = false;
+                if(ICUpgrade.needsUpgrade(event.getLine(1))) {
+                    ICUpgrader u = ICUpgrade.getUpgrader(event.getLine(1));
+                    if(u.preCheckUpgrade((Sign)event.getBlock().getState())) {
+                        u.upgrade((Sign)event.getBlock().getState());
+                        upgraded = true;
+                    }
+                }
+                else if(ICUpgrade.needsUpgrade(event.getLine(0))) {
+                    ICUpgrader u = ICUpgrade.getUpgrader(event.getLine(0));
+                    if(u.preCheckUpgrade((Sign)event.getBlock().getState())) {
+                        u.upgrade((Sign)event.getBlock().getState());
+                        upgraded = true;
+                    }
+                }
+                if(upgraded) {
+                    String newName = event.getLine(0).toLowerCase();
+                    thisIC = getIC(newName);
+                }
+            } while(upgraded && thisIC == null);
+
+            if(thisIC == null) {
+                return;
+            }
         }
 
         event.setLine(0, thisIC.getICNumber());
@@ -711,7 +767,7 @@ public class ICFactory {
     public void handleLeftClick(PlayerInteractEvent event) {
         if (event.getClickedBlock().getType().equals(Material.WALL_SIGN)) {
             Sign sign = (Sign) event.getClickedBlock().getState();
-            BaseIC IC = getIC(sign.getLine(1).toUpperCase());
+            BaseIC IC = getIC(sign.getLine(0).toLowerCase());
             if (IC == null) {
                 return;
             }
@@ -733,7 +789,7 @@ public class ICFactory {
     public void handleRightClick(PlayerInteractEvent event) {
         if (event.getClickedBlock().getType().equals(Material.WALL_SIGN)) {
             Sign sign = (Sign) event.getClickedBlock().getState();
-            BaseIC IC = getIC(sign.getLine(1).toUpperCase());
+            BaseIC IC = getIC(sign.getLine(0).toLowerCase());
             if (IC == null) {
                 return;
             }
