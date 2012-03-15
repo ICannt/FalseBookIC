@@ -831,7 +831,7 @@ public class ICFactory {
         for (Iterator<SelftriggeredBaseIC> iterator = this.SensorList.values().iterator(); iterator.hasNext();) {
             SelftriggeredBaseIC IC = iterator.next();
 
-            if ((IC.getICNumber().equalsIgnoreCase("ic.transmit")) || (IC.getICNumber().equalsIgnoreCase("ic.receive"))) {
+            if ((IC.getICNumber().equalsIgnoreCase("ics.transmit")) || (IC.getICNumber().equalsIgnoreCase("ics.receive"))) {
                 continue;
             }
             if (IC.validateIC()) {

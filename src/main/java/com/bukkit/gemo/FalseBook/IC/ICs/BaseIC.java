@@ -87,10 +87,10 @@ public class BaseIC
             return false;
         }
 
-        if (this.signBlock.getLine(1).length() < 1) {
+        if (this.signBlock.getLine(0).length() < 1) {
             this.signBlock = ((Sign) this.signBlock.getWorld().getBlockAt(this.signBlock.getLocation()).getState());
         }
-        return this.ICNumber.equalsIgnoreCase(this.signBlock.getLine(1));
+        return this.ICNumber.equalsIgnoreCase(this.signBlock.getLine(0));
     }
 
     public void checkCreation(SignChangeEvent event) {
