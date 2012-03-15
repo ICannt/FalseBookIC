@@ -685,35 +685,21 @@ public class ICFactory {
         BaseIC thisIC = getIC(event.getLine(0).toLowerCase());
 
         if (thisIC == null) {
-            boolean upgraded;
-
-            // Loop over all upgrades.
-            do {
-                Sign signBlock = (Sign)event.getBlock().getState();
-                upgraded = false;
-                if(ICUpgrade.needsUpgrade(signBlock.getLine(1))) {
-                    ICUpgrader u = ICUpgrade.getUpgrader(signBlock.getLine(1));
-                    if(u.preCheckUpgrade(signBlock)) {
-                        u.upgrade(signBlock);
-                        upgraded = true;
-                    }
-                }
-                else if(ICUpgrade.needsUpgrade(signBlock.getLine(0))) {
-                    ICUpgrader u = ICUpgrade.getUpgrader(signBlock.getLine(0));
-                    if(u.preCheckUpgrade(signBlock)) {
-                        u.upgrade(signBlock);
-                        upgraded = true;
-                    }
-                }
-                if(upgraded) {
-                    String newName = signBlock.getLine(0).toLowerCase();
-                    thisIC = getIC(newName);
-                }
-            } while(upgraded && thisIC == null);
-
-            if(thisIC == null) {
-                return;
+            boolean upgraded = false;
+            
+            if(ICUpgrade.needsUpgrade(event.getLine(1))) {
+                upgraded = true;
             }
+            else if(ICUpgrade.needsUpgrade(event.getLine(0))) {
+
+            }
+
+            if(upgraded == true) {
+                event.setCancelled(true);
+                SignUtils.cancelSignCreation(event, "IC-Signs must be named using current names.");
+            }
+            
+            return;
         }
 
         event.setLine(0, thisIC.getICNumber());
