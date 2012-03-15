@@ -200,14 +200,14 @@ public class ICFactory {
 
     public BaseIC getIC(String line) {
         line = line.toLowerCase();
-        if (this.registeredTICs.get(line) == null) {
-            BaseIC auto = getICByAuto(line);
-            if (auto != null) {
-                return auto;
+        BaseIC ic = this.registeredTICs.get(line);
+        if (ic == null) {
+            ic = this.registeredSTICs.get(line);
+            if (ic == null) {
+               ic = getICByAuto(line);
             }
-            return this.registeredSTICs.get(line);
         }
-        return this.registeredTICs.get(line);
+        return ic;
     }
 
     public BaseIC getICByName(String line) {
@@ -679,7 +679,7 @@ public class ICFactory {
                 upgraded = true;
             }
             else if(ICUpgrade.needsUpgrade(event.getLine(0))) {
-
+                upgraded = true;
             }
 
             if(upgraded == true) {
