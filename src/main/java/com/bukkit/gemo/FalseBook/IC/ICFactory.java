@@ -76,17 +76,17 @@ public class ICFactory {
 
     private void registerSingleTIC(BaseIC thisIC) {
         thisIC.initCore();
-        this.registeredTICs.put(thisIC.getICNumber().toUpperCase(), thisIC);
+        this.registeredTICs.put(thisIC.getICNumber(), thisIC);
     }
 
     private void registerSingleSTIC(SelftriggeredBaseIC thisIC) {
         for (Entry<String, SelftriggeredBaseIC> entry : this.registeredSTICs.entrySet()) {
             if (((SelftriggeredBaseIC) entry.getValue()).getTypeID() == thisIC.getTypeID()) {
-                FalseBookICCore.printInConsole("WARNING: TypeID of " + ((SelftriggeredBaseIC) entry.getValue()).getICNumber().toUpperCase() + " & " + thisIC.getICNumber().toUpperCase() + " are equal! ( " + thisIC.getTypeID() + " )");
+                FalseBookICCore.printInConsole("WARNING: TypeID of " + ((SelftriggeredBaseIC) entry.getValue()).getICNumber() + " & " + thisIC.getICNumber() + " are equal! ( " + thisIC.getTypeID() + " )");
             }
         }
         thisIC.initCore();
-        this.registeredSTICs.put(thisIC.getICNumber().toUpperCase(), thisIC);
+        this.registeredSTICs.put(thisIC.getICNumber(), thisIC);
     }
 
     private void registerICs() {
@@ -130,35 +130,28 @@ public class ICFactory {
                                     FailedICCount++;
                                 } else if ((newIC instanceof SelftriggeredBaseIC)) {
                                     SelftriggeredBaseIC thisIC = (SelftriggeredBaseIC) newIC;
-                                    if (thisIC.getTypeID() != -1) {
-                                        if (!this.registeredSTICs.containsKey(thisIC.getICNumber().toUpperCase())) {
-                                            if (thisPackage.isShowImportMessages()) {
-                                                FalseBookICCore.printInConsole("imported STIC: " + thisIC.getICName() + " ( " + thisIC.getICNumber().toUpperCase() + " )");
-                                            }
-                                            registerSingleSTIC(thisIC);
-                                            thisIC.onImport();
-                                            thisIC.initCore();
-                                            ICCount++;
-                                        } else {
-                                            FalseBookICCore.printInConsole("ERROR: Could not register selfmade " + thisIC.getICNumber().toUpperCase() + "! STIC is already registered!");
-                                            FailedICCount++;
+                                    if (!this.registeredSTICs.containsKey(thisIC.getICNumber())) {
+                                        if (thisPackage.isShowImportMessages()) {
+                                            FalseBookICCore.printInConsole("imported STIC: " + thisIC.getICName() + " ( " + thisIC.getICNumber() + " )");
                                         }
+                                        registerSingleSTIC(thisIC);
+                                        thisIC.onImport();
+                                        ICCount++;
                                     } else {
-                                        FalseBookICCore.printInConsole("ERROR: Could not import selfmade " + thisIC.getICNumber().toUpperCase() + "! TypeID must me != -1!");
+                                        FalseBookICCore.printInConsole("ERROR: Could not register selfmade " + thisIC.getICNumber() + "! STIC is already registered!");
                                         FailedICCount++;
                                     }
                                 } else if ((newIC instanceof BaseIC)) {
                                     BaseIC thisIC = (BaseIC) newIC;
-                                    if (!this.registeredTICs.containsKey(thisIC.getICNumber().toUpperCase())) {
+                                    if (!this.registeredTICs.containsKey(thisIC.getICNumber())) {
                                         if (thisPackage.isShowImportMessages()) {
-                                            FalseBookICCore.printInConsole("imported TIC: " + thisIC.getICName() + " ( " + thisIC.getICNumber().toUpperCase() + " )");
+                                            FalseBookICCore.printInConsole("imported TIC: " + thisIC.getICName() + " ( " + thisIC.getICNumber() + " )");
                                         }
                                         registerSingleTIC(thisIC);
                                         thisIC.onImport();
-                                        thisIC.initCore();
                                         ICCount++;
                                     } else {
-                                        FalseBookICCore.printInConsole("ERROR: Could not register selfmade " + thisIC.getICNumber().toUpperCase() + "! IC is already registered!");
+                                        FalseBookICCore.printInConsole("ERROR: Could not register selfmade " + thisIC.getICNumber() + "! IC is already registered!");
                                         FailedICCount++;
                                     }
                                 } else {
@@ -249,7 +242,7 @@ public class ICFactory {
     }
 
     public SelftriggeredBaseIC getSTIC(String line) {
-        return this.registeredSTICs.get(line.toUpperCase());
+        return this.registeredSTICs.get(line.toLowerCase());
     }
 
     public ArrayList<NotLoadedIC> getFailedICs() {
