@@ -689,23 +689,24 @@ public class ICFactory {
 
             // Loop over all upgrades.
             do {
+                Sign signBlock = (Sign)event.getBlock().getState();
                 upgraded = false;
-                if(ICUpgrade.needsUpgrade(event.getLine(1))) {
-                    ICUpgrader u = ICUpgrade.getUpgrader(event.getLine(1));
-                    if(u.preCheckUpgrade((Sign)event.getBlock().getState())) {
-                        u.upgrade((Sign)event.getBlock().getState());
+                if(ICUpgrade.needsUpgrade(signBlock.getLine(1))) {
+                    ICUpgrader u = ICUpgrade.getUpgrader(signBlock.getLine(1));
+                    if(u.preCheckUpgrade(signBlock)) {
+                        u.upgrade(signBlock);
                         upgraded = true;
                     }
                 }
-                else if(ICUpgrade.needsUpgrade(event.getLine(0))) {
-                    ICUpgrader u = ICUpgrade.getUpgrader(event.getLine(0));
-                    if(u.preCheckUpgrade((Sign)event.getBlock().getState())) {
-                        u.upgrade((Sign)event.getBlock().getState());
+                else if(ICUpgrade.needsUpgrade(signBlock.getLine(0))) {
+                    ICUpgrader u = ICUpgrade.getUpgrader(signBlock.getLine(0));
+                    if(u.preCheckUpgrade(signBlock)) {
+                        u.upgrade(signBlock);
                         upgraded = true;
                     }
                 }
                 if(upgraded) {
-                    String newName = event.getLine(0).toLowerCase();
+                    String newName = signBlock.getLine(0).toLowerCase();
                     thisIC = getIC(newName);
                 }
             } while(upgraded && thisIC == null);
