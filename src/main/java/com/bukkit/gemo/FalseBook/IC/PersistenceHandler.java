@@ -82,8 +82,7 @@ public class PersistenceHandler {
                         location.getWorld().loadChunk(location.getBlock().getChunk().getX(), location.getBlock().getChunk().getZ(), true);
 
                         SelftriggeredBaseIC newIC = null;
-                        int resID = result.getInt("SensorId");
-
+                        
                         if (location.getBlock().getTypeId() == Material.WALL_SIGN.getId()) {
                             Sign signBlock = (Sign)location.getBlock().getState();
                             BaseIC thisIC = factory.getIC(signBlock.getLine(0).toLowerCase());;
@@ -111,18 +110,12 @@ public class PersistenceHandler {
                                     if(upgraded) {
                                         String newName = signBlock.getLine(0).toLowerCase();
                                         thisIC = factory.getIC(newName);
-                                        resID = newName.hashCode();
                                     }
                                 } while(upgraded && thisIC == null);
-                                
-                                if(upgraded && thisIC != null) {
-                                    this.dbHandler.updateIC(ID, resID);
-                                }
                             }
                             
                             SelftriggeredBaseIC nIC = null;
-                            if(thisIC instanceof SelftriggeredBaseIC &&
-                                    resID == signBlock.getLine(0).toLowerCase().hashCode()) {
+                            if(thisIC instanceof SelftriggeredBaseIC) {
                                 nIC = (SelftriggeredBaseIC)thisIC;
                             }
                             

@@ -61,8 +61,4 @@ public class SelftriggeredBaseIC extends BaseIC {
     public boolean onLoad(String[] lines) {
         return true;
     }
-
-    public int getTypeID() {
-        return this.ICNumber.toLowerCase().hashCode();
-    }
 }

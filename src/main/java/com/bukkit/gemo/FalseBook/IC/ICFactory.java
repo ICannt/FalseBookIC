@@ -80,11 +80,6 @@ public class ICFactory {
     }
 
     private void registerSingleSTIC(SelftriggeredBaseIC thisIC) {
-        for (Entry<String, SelftriggeredBaseIC> entry : this.registeredSTICs.entrySet()) {
-            if (((SelftriggeredBaseIC) entry.getValue()).getTypeID() == thisIC.getTypeID()) {
-                FalseBookICCore.printInConsole("WARNING: TypeID of " + ((SelftriggeredBaseIC) entry.getValue()).getICNumber() + " & " + thisIC.getICNumber() + " are equal! ( " + thisIC.getTypeID() + " )");
-            }
-        }
         thisIC.initCore();
         this.registeredSTICs.put(thisIC.getICNumber(), thisIC);
     }
@@ -724,7 +719,7 @@ public class ICFactory {
 
             if ((!event.isCancelled()) && (newIC != null) && (startUpComplete)) {
                 thisIC.initCore();
-                this.persistence.addSelftriggeredICToDB(((SelftriggeredBaseIC) thisIC).getTypeID(), event.getBlock().getLocation());
+                this.persistence.addSelftriggeredICToDB(0, event.getBlock().getLocation());
                 this.SensorList.put(event.getBlock().getLocation().toString(), newIC);
                 thisIC.notifyCreationSuccess(player);
             }
@@ -781,7 +776,7 @@ public class ICFactory {
                     startUpComplete = thisIC.onLoad(sign.getLines());
                     if ((startUpComplete) && (initComplete)) {
                         thisIC.initCore();
-                        this.persistence.addSelftriggeredICToDB(thisIC.getTypeID(), event.getClickedBlock().getLocation());
+                        this.persistence.addSelftriggeredICToDB(0, event.getClickedBlock().getLocation());
                         this.SensorList.put(event.getClickedBlock().getLocation().toString(), thisIC);
                         thisIC.notifyCreationSuccess(event.getPlayer());
                         return;
