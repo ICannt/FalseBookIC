@@ -86,7 +86,7 @@ public class PersistenceHandler {
 
                         if (location.getBlock().getTypeId() == Material.WALL_SIGN.getId()) {
                             Sign signBlock = (Sign)location.getBlock().getState();
-                            BaseIC thisIC = factory.getIC(signBlock.getLine(0).toUpperCase());;
+                            BaseIC thisIC = factory.getIC(signBlock.getLine(0).toLowerCase());;
  
                             if (thisIC == null) {
                                 boolean upgraded;
