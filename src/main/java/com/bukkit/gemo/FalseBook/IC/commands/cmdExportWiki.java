@@ -91,7 +91,7 @@ public class cmdExportWiki extends Command {
         for (Iterator<BaseIC> iterator = newMapST.values().iterator(); iterator.hasNext();) {
             BaseIC IC = iterator.next();
             if (IC.getClass().getPackage().getName().contains(packageName)) {
-                thisName = IC.getICNumber().substring(1, IC.getICNumber().length() - 1);
+                thisName = IC.getICNumber();
                 icList = icList + "<li><a href=\"" + thisName + ".html\">" + thisName + "</a> - " + IC.getICName() + "</li>";
             }
         }
@@ -124,7 +124,7 @@ public class cmdExportWiki extends Command {
 
         for (Iterator<BaseIC> iterator = newMap.values().iterator(); iterator.hasNext();) {
             BaseIC IC = iterator.next();
-            thisName = IC.getICNumber().substring(1, IC.getICNumber().length() - 1);
+            thisName = IC.getICNumber();
             icList = icList + "<li><a href=\"" + thisName + ".html\">" + thisName + "</a> - " + IC.getICName() + "</li>";
         }
         icList = icList + "</ul>";
@@ -137,7 +137,7 @@ public class cmdExportWiki extends Command {
         icList = "<ul>";
         for (Iterator<BaseIC> iterator = newMapST.values().iterator(); iterator.hasNext();) {
             BaseIC IC = iterator.next();
-            thisName = IC.getICNumber().substring(1, IC.getICNumber().length() - 1);
+            thisName = IC.getICNumber();
             icList = icList + "<li><a href=\"" + thisName + ".html\">" + thisName + "</a> - " + IC.getICName() + "</li>";
         }
         icList = icList + "</ul>";
@@ -177,13 +177,13 @@ public class cmdExportWiki extends Command {
             return;
         }
         try {
-            String fileName = folderName + "/" + ic.ICNumber.substring(1, ic.ICNumber.length() - 1) + ".html";
+            String fileName = folderName + "/" + ic.ICNumber + ".html";
             WikiPage thisPage = new WikiPage(folderName + "/templates/template_icpage.html");
             thisPage.replaceText("%MCNAME%", ic.ICNumber);
             thisPage.replaceText("%MCDESC%", ic.ICName);
             thisPage.replaceText("%DESCRIPTION%", ic.ICDescription);
             thisPage.replaceText("%IOIMAGE%", getIOLine(ic));
-            thisPage.replaceText(" " + ic.ICNumber.substring(1, ic.ICNumber.length() - 1) + " ", " <b>" + ic.ICNumber.substring(1, ic.ICNumber.length() - 1) + "</b> ");
+            thisPage.replaceText(" " + ic.ICNumber + " ", " <b>" + ic.ICNumber + "</b> ");
             thisPage.replaceText("%PERMISSIONS%", getPermissionString(ic));
             thisPage.replaceText("%SIGN%", getLineString(ic));
             thisPage.replaceText("%INPUTS%", getInputString(ic));
@@ -242,7 +242,7 @@ public class cmdExportWiki extends Command {
         result = result + "<li>falsebook.anyic</li>";
         result = result + "<li>falsebook.ic.*</li>";
         result = result + "<li>falsebook.ic." + ic.Group.name().toLowerCase() + "</li>";
-        result = result + "<li>falsebook.ic." + ic.ICNumber.toLowerCase().substring(1, ic.ICNumber.length() - 1) + "</li>";
+        result = result + "<li>falsebook.ic." + ic.ICNumber.toLowerCase() + "</li>";
         result = result + "</ul>";
         return result;
     }

@@ -4,19 +4,7 @@ import com.bukkit.gemo.FalseBook.Core.FalseBookCore;
 import com.bukkit.gemo.FalseBook.IC.Listeners.FalseBookICBlockListener;
 import com.bukkit.gemo.FalseBook.IC.Listeners.FalseBookICEntityListener;
 import com.bukkit.gemo.FalseBook.IC.Listeners.FalseBookICPlayerListener;
-import com.bukkit.gemo.FalseBook.IC.commands.cmdClearFailedICs;
-import com.bukkit.gemo.FalseBook.IC.commands.cmdClearICs;
-import com.bukkit.gemo.FalseBook.IC.commands.cmdDeleteFailedIC;
-import com.bukkit.gemo.FalseBook.IC.commands.cmdExportWiki;
-import com.bukkit.gemo.FalseBook.IC.commands.cmdFBIC;
-import com.bukkit.gemo.FalseBook.IC.commands.cmdICStatus;
-import com.bukkit.gemo.FalseBook.IC.commands.cmdJumpToFailed;
-import com.bukkit.gemo.FalseBook.IC.commands.cmdReloadICs;
-import com.bukkit.gemo.FalseBook.IC.commands.cmdReloadSettings;
-import com.bukkit.gemo.FalseBook.IC.commands.cmdSetCommand;
-import com.bukkit.gemo.FalseBook.IC.commands.cmdSetMaxReplaceBlocks;
-import com.bukkit.gemo.FalseBook.IC.commands.cmdSetSelftriggeredICs;
-import com.bukkit.gemo.FalseBook.IC.commands.cmdSetTicksBetween;
+import com.bukkit.gemo.FalseBook.IC.commands.*;
 import com.bukkit.gemo.commands.CommandList;
 import com.bukkit.gemo.utils.FlatFile;
 import com.grover.mingebag.ic.RedstoneListener;
@@ -137,6 +125,7 @@ public class FalseBookICCore extends JavaPlugin
                 new cmdDeleteFailedIC("[FB-IC]", "deleteic", "<ID>", ""),
                 new cmdDeleteFailedIC("[FB-IC]", "delic", "<ID>", ""),
                 new cmdExportWiki("[FB-IC]", "exportwiki", "", ""),
+                new cmdExportJSON("[FB-IC]", "exportjson", "", ""),
                 new cmdICStatus("[FB-IC]", "icstatus", "", ""),
                 new cmdReloadICs("[FB-IC]", "reloadics", "", ""),
                 new cmdReloadSettings("[FB-IC]", "reloadsettings", "", ""),
