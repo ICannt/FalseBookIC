@@ -129,6 +129,7 @@ public class FalseBookICCore extends JavaPlugin
                 new cmdICStatus("[FB-IC]", "icstatus", "", ""),
                 new cmdReloadICs("[FB-IC]", "reloadics", "", ""),
                 new cmdReloadSettings("[FB-IC]", "reloadsettings", "", ""),
+                new cmdSetPulse("[FB-IC]", "pulse", "<amount>", ""),
                 new cmdSetCommand("[FB-IC]", "set", "", "", false, new com.bukkit.gemo.commands.Command[]{
                     new cmdSetMaxReplaceBlocks("[FB-IC]", "maxreplaceblocks", "<Number of Blocks>", ""),
                     new cmdSetSelftriggeredICs("[FB-IC]", "selftriggeredics", "<true | false>", ""),
