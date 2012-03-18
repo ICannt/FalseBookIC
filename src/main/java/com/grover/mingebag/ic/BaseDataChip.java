@@ -19,7 +19,7 @@ public class BaseDataChip extends BaseIC
 
         String line = event.getLine(1);
         Integer user = -1;
-        Integer pulse = 1;
+        Integer pulse = 2;
         
         if (line.length() > 0) {
             try {
@@ -29,8 +29,8 @@ public class BaseDataChip extends BaseIC
             }
         }
         
-        if (pulse > 600 || pulse < 1) {
-            pulse = 1;
+        if (pulse > 600 || pulse < 2) {
+            pulse = 2;
         }
 
         if (pulse != user) {
@@ -67,7 +67,7 @@ public class BaseDataChip extends BaseIC
 		}
 	
 		if(pulse > 600 || pulse < 0) {
-			pulse = 1;
+			pulse = 2;
 		}
 		
 		if(pulse > 0) {
@@ -132,7 +132,7 @@ public class BaseDataChip extends BaseIC
 				loc.subtract(0,0,1);
 
 			if (direction == 3)
-				loc.subtract(0,0,1);
+				loc.subtract(1,0,0);
 
 			if (direction == 4)
 				loc.add(0,0,1);

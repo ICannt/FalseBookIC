@@ -36,8 +36,8 @@ public class cmdSetPulse extends Command {
         				pulse = 600;
  
         			
-        			if (pulse < 1)
-        				pulse = 1;
+        			if (pulse < 2)
+        				pulse = 2;
         			
         			sign.setLine(1, pulse.toString());
         			sign.update();
