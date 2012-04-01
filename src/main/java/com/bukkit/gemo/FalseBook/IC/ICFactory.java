@@ -652,6 +652,11 @@ public class ICFactory {
             } else {
                 handleRedstoneEvent(tBlock, rEvent, delay, searchTry + 1);
             }
+        } else if(searchTry <= 10) {
+            handleRedstoneEvent(block.getRelative(1, 0, 0), event, delayTicks, Integer.MAX_VALUE);
+            handleRedstoneEvent(block.getRelative(-1, 0, 0), event, delayTicks, Integer.MAX_VALUE);
+            handleRedstoneEvent(block.getRelative(0, 0, 1), event, delayTicks, Integer.MAX_VALUE);
+            handleRedstoneEvent(block.getRelative(0, 0, -1), event, delayTicks, Integer.MAX_VALUE);
         }
     }
 

@@ -70,13 +70,9 @@ public class FalseBookICBlockListener
             return;
         }
         Block block = event.getBlock();
-        signRedstoneEvent(block.getRelative(1, 0, 0), event, 0, 1);
-        signRedstoneEvent(block.getRelative(-1, 0, 0), event, 0, 1);
-        signRedstoneEvent(block.getRelative(0, 0, 1), event, 0, 1);
-        signRedstoneEvent(block.getRelative(0, 0, -1), event, 0, 1);
-    }
-
-    public void signRedstoneEvent(Block block, BlockRedstoneEvent event, int delayTicks, int searchTry) {
-        this.factory.handleRedstoneEvent(block, event, delayTicks, searchTry);
+        this.factory.handleRedstoneEvent(block.getRelative(1, 0, 0), event, 0, 1);
+        this.factory.handleRedstoneEvent(block.getRelative(-1, 0, 0), event, 0, 1);
+        this.factory.handleRedstoneEvent(block.getRelative(0, 0, 1), event, 0, 1);
+        this.factory.handleRedstoneEvent(block.getRelative(0, 0, -1), event, 0, 1);
     }
 }
